@@ -1,0 +1,17 @@
+{
+  "name": "claudiovilasboas",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "description": "My Personal website",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
