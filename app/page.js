@@ -114,14 +114,13 @@ export default function Home() {
             darkMode ? "text-gray-300" : "text-gray-700"
           } max-w-3xl`}
         >
-          "Simple can be harder than complex: You have to work hard to get your
-          thinking clean to make it simple."
+          "This is totally my website and I didn't just copied Claudio's and put my face on it..."
           <span
             className={`block mt-2 text-sm ${
               darkMode ? "text-gray-400" : "text-gray-500"
             }`}
           >
-            — Steve Jobs
+            — me
           </span>
         </p>
         <div
