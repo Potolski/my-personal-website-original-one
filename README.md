@@ -52,4 +52,4 @@ Feel free to reach out if you have any questions or want to connect!
 
 ---
 
-> "Simple can be harder than complex: You have to work hard to get your thinking clean to make it simple." — Steve Jobs
+> "This is totally my website and I didnt copy Claudio's website" — me
