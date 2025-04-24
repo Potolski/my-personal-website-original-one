@@ -1,7 +1,7 @@
 import ThemeWrapper from './components/ThemeWrapper';
 
 export const metadata = {
-  title: 'Claudio Vilas Boas | Blockchain & Emerging Technologies',
+  title: 'David Potolski Lafeta | Blockchain & Emerging Technologies',
   description: 'Software engineer and technical leader with expertise in blockchain, fintech, and distributed systems.',
 }
 

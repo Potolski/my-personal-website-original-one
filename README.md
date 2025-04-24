@@ -1,6 +1,6 @@
-# Claudio Vilas Boas - Personal Website
+# David Potolski Lafeta - Personal Website
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black.svg?style=flat-square)](https://claudiovilasboas.io)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black.svg?style=flat-square)](https://davidpotolski.com)
 [![Made with Next.js](https://img.shields.io/badge/Made%20with-Next.js-blue.svg?style=flat-square&logo=next.js)](https://nextjs.org)
 
 A minimal, elegant personal website showcasing my experience in blockchain and emerging technologies.
@@ -29,13 +29,6 @@ The website features:
 
 ## 🛠️ Local Development
 
-```bash
-# Clone the repository
-git clone https://github.com/claudiovb/claudiovilasboas.io.git
-
-# Navigate to project directory
-cd claudiovilasboas.io
-
 # Install dependencies
 yarn install
 
@@ -53,9 +46,9 @@ This project is open-source and available under the MIT License.
 
 Feel free to reach out if you have any questions or want to connect!
 
-- Email: [claudiocarvalhovilasboas@gmail.com](mailto:claudiocarvalhovilasboas@gmail.com)
-- GitHub: [@claudiovb](https://github.com/claudiovb)
-- LinkedIn: [Claudio Vilas Boas](https://linkedin.com/in/claudio-boas-b85555b9)
+- Email: [davidpotolskilafeta@gmail.com](mailto:davidpotolskilafeta@gmail.com)
+- GitHub: [@potolski](https://github.com/potolski)
+- LinkedIn: [David Potolski Lafeta](https://www.linkedin.com/in/davidpotolskilafeta/)
 
 ---
 

@@ -48,7 +48,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className={`${navBgClass} p-4 sticky top-0 z-10 shadow-lg`}>
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Claudio Vilas Boas</h1>
+          <h1 className="text-2xl font-bold">David Potolski Lafeta</h1>
           <div className="flex space-x-4 items-center">
             <a
               href="#about"
@@ -98,7 +98,7 @@ export default function Home() {
           {/* Replace this with your actual photo */}
           <img
             src="/profile-photo.jpeg"
-            alt="Claudio Vilas Boas"
+            alt="David Potolski Lafeta"
             className="w-40 h-40 object-cover"
             onError={(e) => {
               e.target.onerror = null;
@@ -107,7 +107,7 @@ export default function Home() {
           />
         </div>
         <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-          Claudio Vilas Boas
+          David Potolski Lafeta
         </h1>
         <p
           className={`text-xl mb-8 ${
@@ -134,7 +134,7 @@ export default function Home() {
         </div>
         <div className="flex flex-wrap justify-center gap-4 mb-10">
           <a
-            href="https://github.com/claudiovb"
+            href="https://github.com/potolski"
             target="_blank"
             className={`flex items-center px-4 py-2 ${
               darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
@@ -143,7 +143,7 @@ export default function Home() {
             <i className="fab fa-github mr-2"></i> GitHub
           </a>
           <a
-            href="https://linkedin.com/in/claudio-boas-b85555b9"
+            href="https://linkedin.com/in/davidpotolskilafeta/"
             target="_blank"
             className={`flex items-center px-4 py-2 ${
               darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
@@ -152,7 +152,7 @@ export default function Home() {
             <i className="fab fa-linkedin mr-2"></i> LinkedIn
           </a>
           <a
-            href="mailto:claudiocarvalhovilasboas@gmail.com"
+            href="mailto:davidpotolskilafeta@gmail.com"
             className={`flex items-center px-4 py-2 ${
               darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
             } hover:bg-gray-700 hover:text-white rounded-lg transition-colors`}
@@ -160,7 +160,7 @@ export default function Home() {
             <i className="fas fa-envelope mr-2"></i> Email
           </a>
           <a
-            href="/claudio-vilasboas-resume.pdf"
+            href="/david-potolski-resume.pdf"
             target="_blank"
             className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white"
           >
@@ -683,7 +683,7 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
           <div className="flex justify-center mb-6">
             <a
-              href="https://github.com/claudiovb"
+              href="https://github.com/potolski"
               target="_blank"
               className={`mx-2 ${
                 darkMode
@@ -694,7 +694,7 @@ export default function Home() {
               <i className="fab fa-github text-2xl"></i>
             </a>
             <a
-              href="https://linkedin.com/in/claudio-boas-b85555b9"
+              href="https://linkedin.com/in/davidpotolskilafeta/"
               target="_blank"
               className={`mx-2 ${
                 darkMode
@@ -705,7 +705,7 @@ export default function Home() {
               <i className="fab fa-linkedin text-2xl"></i>
             </a>
             <a
-              href="mailto:claudiocarvalhovilasboas@gmail.com"
+              href="mailto:davidpotolskilafeta@gmail.com"
               className={`mx-2 ${
                 darkMode
                   ? "text-gray-400 hover:text-white"
@@ -716,7 +716,7 @@ export default function Home() {
             </a>
           </div>
           <p className="text-gray-500">
-            © {new Date().getFullYear()} Claudio Vilas Boas. All rights
+            © {new Date().getFullYear()} David Potolski Lafeta. All rights
             reserved.
           </p>
         </div>
