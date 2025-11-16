@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Inter } from "next/font/google";
 import { ThemeContext } from "./contexts/ThemeContext";
 
@@ -18,7 +18,7 @@ export default function Home() {
   const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
   const subtleTextClass = darkMode ? "text-gray-400" : "text-gray-500";
   const bodyTextClass = darkMode ? "text-gray-300" : "text-gray-600";
-  const accentTextClass = darkMode ? "text-blue-400" : "text-blue-600";
+  const accentTextClass = darkMode ? "text-orange-400" : "text-orange-600";
   const cardShadowClass = darkMode ? "shadow-md" : "shadow-lg";
   const contentWidthClass = "max-w-4xl";
   const projectsWidthClass = "max-w-5xl";
@@ -27,47 +27,82 @@ export default function Home() {
       ? "border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-100 hover:shadow-md"
       : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
   } shadow-sm flex items-center justify-center transition-colors`;
+  const sideIconBase = "w-12 h-12 flex items-center justify-center";
+  const sideLabelClass = `pointer-events-none absolute left-full ml-3 text-base font-medium ${darkMode ? "text-gray-100" : "text-gray-900"} opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`;
+  const [activeSection, setActiveSection] = useState("about");
+
+  useEffect(() => {
+    const ids = ["about", "experience", "projects", "skills"];
+    let ticking = false;
+
+    const updateActiveByPosition = () => {
+      const targetY = window.innerHeight * 0.33; // roughly 1/3 from top
+      let bestId = ids[0];
+      let bestDist = Number.POSITIVE_INFINITY;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        const dist = Math.abs(rect.top - targetY);
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestId = id;
+        }
+      }
+      setActiveSection(bestId);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveByPosition();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    updateActiveByPosition();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
     <div className={`min-h-screen ${bgClass} ${textClass}`}>
       {/* Fixed Left Sidebar Nav */}
-      <nav className="fixed left-4 top-28 z-20 flex flex-col items-center gap-2.5">
-        <a href="#about" aria-label="About" className={`group relative side-button ${sideButtonClass}`}>
-          <i className="fas fa-home side-icon"></i>
-          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
-            darkMode ? "text-gray-100" : "text-gray-900"
-          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>About</span>
-        </a>
-        <a href="#experience" aria-label="Experience" className={`group relative side-button ${sideButtonClass}`}>
-          <i className="fas fa-user-tie side-icon"></i>
-          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
-            darkMode ? "text-gray-100" : "text-gray-900"
-          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Experience</span>
-        </a>
-        <a href="#projects" aria-label="Projects" className={`group relative side-button ${sideButtonClass}`}>
-          <i className="fas fa-th-large side-icon"></i>
-          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
-            darkMode ? "text-gray-100" : "text-gray-900"
-          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Projects</span>
-        </a>
-        <a href="#skills" aria-label="Skills" className={`group relative side-button ${sideButtonClass}`}>
-          <i className="fas fa-cogs side-icon"></i>
-          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
-            darkMode ? "text-gray-100" : "text-gray-900"
-          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Skills</span>
-        </a>
+      <nav className="fixed left-4 top-28 z-20 flex flex-col items-center gap-3">
+        <div className={`rounded-2xl p-2 ${darkMode ? "bg-gray-800/70" : "bg-gray-100"} shadow-sm flex flex-col items-center gap-2`}>
+          <a href="#about" aria-label="About" onClick={() => setActiveSection("about")} className={`group relative ${activeSection === "about" ? "side-button " + sideButtonClass : sideIconBase}`}>
+            <i className="fas fa-home side-icon"></i>
+            <span className={sideLabelClass}>About</span>
+          </a>
+          <a href="#experience" aria-label="Experience" onClick={() => setActiveSection("experience")} className={`group relative ${activeSection === "experience" ? "side-button " + sideButtonClass : sideIconBase}`}>
+            <i className="fas fa-user-tie side-icon"></i>
+            <span className={sideLabelClass}>Experience</span>
+          </a>
+          <a href="#projects" aria-label="Projects" onClick={() => setActiveSection("projects")} className={`group relative ${activeSection === "projects" ? "side-button " + sideButtonClass : sideIconBase}`}>
+            <i className="fas fa-th-large side-icon"></i>
+            <span className={sideLabelClass}>Projects</span>
+          </a>
+          <a href="#skills" aria-label="Skills" onClick={() => setActiveSection("skills")} className={`group relative ${activeSection === "skills" ? "side-button " + sideButtonClass : sideIconBase}`}>
+            <i className="fas fa-cogs side-icon"></i>
+            <span className={sideLabelClass}>Skills</span>
+          </a>
+        </div>
         <div className="h-2"></div>
-        <div className={`group relative side-button ${sideButtonClass}`}>
+        <div className="group relative">
           <button
             onClick={toggleTheme}
-            className="w-full h-full flex items-center justify-center"
+            className="w-12 h-12 flex items-center justify-center"
             aria-label="Toggle dark/light mode"
           >
-            {darkMode ? <i className="fas fa-sun side-icon"></i> : <i className="fas fa-moon side-icon"></i>}
+            {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
           </button>
-          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
-            darkMode ? "text-gray-100" : "text-gray-900"
-          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Theme</span>
+          <span className={sideLabelClass}>Theme</span>
         </div>
       </nav>
 
@@ -88,7 +123,7 @@ export default function Home() {
           David Potolski Lafetá
         </h1>
         <p className={`text-base mb-4 ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl`}>
-          Founder @ <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="underline">Kmino</a> • Core Manager @ <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="underline">Syscoin</a>
+          Founder @ <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Kmino</a> • Core Manager @ <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Syscoin</a>
         </p>
         <div className={`text-sm mb-8 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
           Blockchain expert in EVM and UTXO chains, DeFi, ZK, and high-assurance smart contracts
@@ -131,17 +166,17 @@ export default function Home() {
           </a>
         </div>
         <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Solidity</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>Solidity</span>
           <span>•</span>
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Move</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>Move</span>
           <span>•</span>
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>UTXO</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>UTXO</span>
           <span>•</span>
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>EVM</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>EVM</span>
           <span>•</span>
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>ZK</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>ZK</span>
           <span>•</span>
-          <span className={darkMode ? "text-blue-400" : "text-blue-600"}>DeFi</span>
+          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>DeFi</span>
         </div>
       </header>
 
@@ -156,7 +191,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Global styles for icon shake */}
+      {/* Global styles for icon shake and toggle morph */}
       <style jsx global>{`
         @keyframes subtle-shake {
           0% { transform: translateX(0) rotate(0); }
@@ -168,6 +203,13 @@ export default function Home() {
         .side-button:hover .side-icon {
           animation: subtle-shake 0.25s ease-in-out;
         }
+        @keyframes toggle-morph {
+          0% { transform: rotate(-20deg) scale(0.85); opacity: 0.85; }
+          100% { transform: rotate(0deg) scale(1); opacity: 1; }
+        }
+        .toggle-icon {
+          animation: toggle-morph 220ms ease-in-out;
+        }
       `}</style>
       {/* Work Experience */}
       <section id="experience" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
@@ -176,8 +218,8 @@ export default function Home() {
         {/* Kmino */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">
-              <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="hover:underline">Kmino</a>
+            <h3 className="text-2xl font-bold text-orange-500">
+              <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="hover:underline text-inherit">Kmino</a>
             </h3>
             <div className="text-gray-400">2025 - Present</div>
           </div>
@@ -191,7 +233,7 @@ export default function Home() {
         {/* Lunos DAO */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">Lunos DAO</h3>
+            <h3 className="text-2xl font-bold text-orange-500">Lunos DAO</h3>
             <div className="text-gray-400">August 2024 - Present</div>
           </div>
           <div className="text-xl mb-4">Tech Lead - Dubai, UAE</div>
@@ -205,8 +247,8 @@ export default function Home() {
         {/* Syscoin */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">
-              <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="hover:underline">Syscoin</a>
+            <h3 className="text-2xl font-bold text-orange-500">
+              <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="hover:underline text-inherit">Syscoin</a>
             </h3>
             <div className="text-gray-400">May 2023 - Present</div>
           </div>
@@ -221,7 +263,7 @@ export default function Home() {
         {/* Pollum */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">Pollum</h3>
+            <h3 className="text-2xl font-bold text-orange-500">Pollum</h3>
             <div className="text-gray-400">May 2023 - May 2025</div>
           </div>
           <div className="text-xl mb-4">Tech Lead | Project Manager - British Virgin Islands</div>
@@ -235,7 +277,7 @@ export default function Home() {
         {/* Clevertech */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">Clevertech</h3>
+            <h3 className="text-2xl font-bold text-orange-500">Clevertech</h3>
             <div className="text-gray-400">August 2022 - March 2023</div>
           </div>
           <div className="text-xl mb-4">Software Engineer - New York, United States</div>
@@ -250,7 +292,7 @@ export default function Home() {
         {/* Brick Abode */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">Brick Abode</h3>
+            <h3 className="text-2xl font-bold text-orange-500">Brick Abode</h3>
             <div className="text-gray-400">August 2019 - March 2022</div>
           </div>
           <div className="text-xl mb-4">Software Engineer | Project Manager - Salem, Virginia</div>
@@ -263,7 +305,7 @@ export default function Home() {
         </div>
 
         <div className="text-center mt-10">
-          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" rel="noopener noreferrer" className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white">
+          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" rel="noopener noreferrer" className="inline-block px-6 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors text-white">
             View Full Work History
           </a>
         </div>
@@ -291,10 +333,10 @@ export default function Home() {
                     A Web3 multichain wallet supporting multiple blockchains
                   </p>
                   <div className="flex items-center gap-4">
-                    <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fab fa-github mr-1"></i> GitHub
                     </a>
-                    <a href="https://paliwallet.com/" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://paliwallet.com/" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fas fa-external-link-alt mr-1"></i> Website
                     </a>
                   </div>
@@ -318,10 +360,10 @@ export default function Home() {
                     Automated, trustless coverage solutions for digital assets
                   </p>
                   <div className="flex items-center gap-4">
-                    <a href="https://github.com/Uno-Re" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://github.com/Uno-Re" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fab fa-github mr-1"></i> GitHub
                     </a>
-                    <a href="https://lunos.xyz" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://lunos.xyz" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fas fa-external-link-alt mr-1"></i> Website
                     </a>
                   </div>
@@ -345,10 +387,10 @@ export default function Home() {
                     DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux
                   </p>
                   <div className="flex items-center gap-4">
-                    <a href="https://github.com/pegasys-fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://github.com/pegasys-fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fab fa-github mr-1"></i> GitHub
                     </a>
-                    <a href="https://app.pegasys.fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                    <a href="https://app.pegasys.fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
                       <i className="fas fa-external-link-alt mr-1"></i> Website
                     </a>
                   </div>
@@ -366,7 +408,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Blockchain Skills */}
           <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
-            <h3 className="text-xl font-bold mb-4 text-blue-400">Blockchain Development</h3>
+            <h3 className="text-xl font-bold mb-4 text-orange-500">Blockchain Development</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
                 <i className="fas fa-check-circle text-green-500 mr-2"></i>
@@ -389,7 +431,7 @@ export default function Home() {
 
           {/* Development Tools */}
           <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
-            <h3 className="text-xl font-bold mb-4 text-blue-400">Development Tools</h3>
+            <h3 className="text-xl font-bold mb-4 text-orange-500">Development Tools</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
                 <i className="fas fa-check-circle text-green-500 mr-2"></i>
