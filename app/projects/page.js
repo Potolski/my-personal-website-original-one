@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeContext } from "../contexts/ThemeContext";
@@ -15,7 +15,7 @@ export default function ProjectsPage() {
   const projectsWidthClass = "max-w-5xl";
   const sideButtonClass = `w-12 h-12 rounded-lg border ${
     darkMode
-      ? "border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-100 hover:shadow-md"
+      ? "border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-100 hover:shadow-md"
       : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
   } shadow-sm flex items-center justify-center transition-colors`;
   const sideIconBase = "w-12 h-12 flex items-center justify-center";
@@ -24,11 +24,95 @@ export default function ProjectsPage() {
   } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1 hidden md:block`;
   const pathname = usePathname();
 
+  // Projects data for the accordion + image viewer
+  const projects = [
+    {
+      key: "pali",
+      title: "Pali Wallet",
+      tech: "React • Web3.js • Blockchain",
+      description: "A Web3 multichain wallet supporting multiple blockchains.",
+      image: "/pali-preview.png",
+      links: [
+        { href: "https://github.com/syscoin/pali-wallet", label: "GitHub", icon: "fab fa-github" },
+        { href: "https://paliwallet.com/", label: "Website", icon: "fas fa-external-link-alt" },
+      ],
+    },
+    {
+      key: "lunos",
+      title: "Lunos Protocol",
+      tech: "Solidity • DeFi • Insurance",
+      description: "Automated, trustless coverage solutions for digital assets.",
+      image: "/lunos-preview.png",
+      links: [
+        { href: "https://github.com/Uno-Re", label: "GitHub", icon: "fab fa-github" },
+        { href: "https://lunos.xyz", label: "Website", icon: "fas fa-external-link-alt" },
+      ],
+    },
+    {
+      key: "pegasys",
+      title: "Pegasys.fi",
+      tech: "Solidity • DeFi • AMM",
+      description: "DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux.",
+      image: "/pegasys.png",
+      links: [
+        { href: "https://github.com/pegasys-fi", label: "GitHub", icon: "fab fa-github" },
+        { href: "https://app.pegasys.fi", label: "Website", icon: "fas fa-external-link-alt" },
+      ],
+    },
+    {
+      key: "syscoin",
+      title: "Syscoin",
+      tech: "UTXO • NEVM • L2",
+      description: "Modular blockchain combining Bitcoin security with scalable EVM smart contracts and Edgechains.",
+      image: "/syscoin.png",
+      links: [
+        { href: "https://github.com/syscoin", label: "GitHub", icon: "fab fa-github" },
+        { href: "https://syscoin.org", label: "Website", icon: "fas fa-external-link-alt" },
+      ],
+    },
+  ];
+  const [active, setActive] = useState(0);
+  const listRef = useRef(null);
+  const viewerRef = useRef(null);
+  const [viewerHeight, setViewerHeight] = useState(null);
+  const [baseHeight, setBaseHeight] = useState(null);
+
+  useEffect(() => {
+    if (!listRef.current) return;
+    const update = () => {
+      const target = listRef.current;
+      if (!target) return;
+      const listH = target.offsetHeight || 0;
+      const cap = window.innerHeight * 0.85;
+      const measured = Math.min(listH, cap);
+      const initial = baseHeight ?? measured;
+      if (baseHeight === null) setBaseHeight(initial);
+      const finalH = Math.min(initial, measured);
+      setViewerHeight(`${finalH}px`);
+    };
+    update();
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(update);
+      ro.observe(listRef.current);
+    }
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("resize", update);
+      if (ro) ro.disconnect();
+    };
+  }, [baseHeight]);
+
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0`}>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0 relative`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
+      {/* Soft background accents */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-10 bg-gradient-to-br from-orange-400 to-pink-500 filter blur-3xl"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full opacity-10 bg-gradient-to-tr from-orange-300 to-yellow-300 filter blur-3xl"></div>
+      </div>
       {/* Sidebar (projects active) */}
       <nav className="fixed z-20 flex items-center gap-3 left-1/2 top-3 -translate-x-1/2 md:left-4 md:top-28 md:-translate-x-0 md:flex-col">
-        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "bg-gray-800/70" : "bg-gray-100"} shadow-sm flex items-center gap-2 md:flex-col md:items-center md:gap-2`}>
+        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "shadow-sm" : "bg-gray-100 shadow-sm"} flex items-center gap-2 md:flex-col md:items-center md:gap-2`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
           <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-home side-icon"></i>
             <span className={sideLabelClass}>Home</span>
@@ -73,82 +157,84 @@ export default function ProjectsPage() {
       `}</style>
 
       <header className={`container mx-auto px-4 py-12 ${projectsWidthClass}`}>
-        <h1 className="text-3xl font-serif font-semibold mb-8 text-center">Featured Projects</h1>
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-2 text-center">Featured Projects</h1>
+        <div className="mx-auto mb-4 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
+        {/* Quick-links button row */}
+        <div className="mx-auto max-w-xl flex flex-wrap items-center justify-center gap-3 mb-6">
+          <a href="https://github.com/potolski" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
+            <i className="fab fa-github mr-2"></i> GitHub
+          </a>
+          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
+            <i className="fab fa-linkedin mr-2"></i> LinkedIn
+          </a>
+          <a href="mailto:davidpotolskilafeta@gmail.com" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
+            <i className="fas fa-envelope mr-2"></i> Email
+          </a>
+          <a href="https://medium.com/@davidpotolskilafeta" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
+            <i className="fab fa-medium mr-2"></i> Blog
+          </a>
+        </div>
 
-        <div className="grid grid-cols-1 gap-6">
-          {/* Pali Wallet */}
-          <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-            <div className="p-7">
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <h3 className="text-xl font-bold">Pali Wallet</h3>
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>React • Web3.js • Blockchain</span>
-                </div>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                  A Web3 multichain wallet supporting multiple blockchains
-                </p>
-                <div className="flex items-center gap-4">
-                  <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://paliwallet.com/" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Static visual on the left */}
+          <div className="md:sticky md:top-24">
+            <div ref={viewerRef} className={`relative w-full flex items-center justify-center`} style={{ height: viewerHeight || "12rem" }}>
+              <img
+                src={projects[active].image}
+                alt={`${projects[active].title} preview`}
+                className="max-h-full max-w-full object-contain transition-opacity duration-300"
+              />
             </div>
           </div>
 
-          {/* Lunos */}
-          <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-            <div className="p-7">
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <h3 className="text-xl font-bold">Lunos Protocol</h3>
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • Insurance</span>
-                </div>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                  Automated, trustless coverage solutions for digital assets
-                </p>
-                <div className="flex items-center gap-4">
-                  <a href="https://github.com/Uno-Re" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://lunos.xyz" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pegasys.fi */}
-          <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-            <div className="p-7">
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <h3 className="text-xl font-bold">Pegasys.fi</h3>
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • AMM</span>
-                </div>
-              </div>
-              <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                  DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux
-                </p>
-                <div className="flex items-center gap-4">
-                  <a href="https://github.com/pegasys-fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://app.pegasys.fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
-                </div>
-              </div>
-            </div>
+          {/* List/Accordion on the right */}
+          <div ref={listRef}>
+            <ol className="space-y-3">
+              {projects.map((p, idx) => {
+                const isActive = active === idx;
+                return (
+                  <li
+                    key={p.key}
+                    className={`group rounded-xl border ${borderClass} ${cardBgClass} shadow-sm transition-all duration-200 relative overflow-hidden ${isActive ? "shadow-md" : "hover:border-orange-300 hover:shadow-sm hover:bg-gray-50 dark:hover:bg-gray-900"}`}
+                    style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}
+                  >
+                    <button
+                      onClick={() => setActive(idx)}
+                      className="w-full text-left px-4 py-3 md:py-4 flex items-center justify-between rounded-xl outline-none focus:outline-none focus-visible:outline-none"
+                      aria-expanded={isActive}
+                    >
+                      {/* Left orange bar */}
+                      <span
+                        className="absolute left-0 top-0 h-full transition-all duration-300"
+                        style={{ width: isActive ? "6px" : "3px", backgroundColor: "#f97316" }}
+                      ></span>
+                      <h3
+                        className={`font-semibold tracking-tight text-2xl md:text-3xl transition-colors duration-300`}
+                        style={isActive ? { color: "#f97316" } : undefined}
+                      >
+                        {p.title}
+                      </h3>
+                    </button>
+                    <div className={`px-4 transition-[max-height,opacity,padding] ${isActive ? "duration-300" : "duration-150"} ease-in-out overflow-hidden ${isActive ? "max-h-60 md:max-h-72 opacity-100 pb-4" : "max-h-0 opacity-0 pb-0"}`}>
+                      <div className="h-px w-full mb-3 bg-gray-200 dark:bg-gray-800"></div>
+                      <div className={`text-sm mb-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{p.tech}</div>
+                      <div className={`${darkMode ? "text-gray-300" : "text-gray-700"} mb-3`}>{p.description}</div>
+                      <div className="flex items-center gap-4">
+                        {p.links.map((l) => (
+                          <a key={l.href} href={l.href} target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
+                            <i className={`${l.icon} mr-1`}></i> {l.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Divider between items */}
+                    {idx !== projects.length - 1 && (
+                      <div className="absolute -bottom-2 left-3 right-3 h-px bg-gray-200 dark:bg-gray-800 opacity-60 md:hidden"></div>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </div>
       </header>

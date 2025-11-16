@@ -15,7 +15,7 @@ export default function Home() {
   const bgClass = darkMode ? "bg-gray-900" : "bg-white";
   const textClass = darkMode ? "text-white" : "text-gray-800";
   const navBgClass = darkMode ? "bg-gray-800" : "bg-white";
-  const subtleBgClass = darkMode ? "bg-gray-800" : "bg-gray-50";
+  const subtleBgClass = darkMode ? "bg-gray-700" : "bg-gray-50";
   const cardBgClass = darkMode ? "bg-gray-900" : "bg-white";
   const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
   const subtleTextClass = darkMode ? "text-gray-400" : "text-gray-500";
@@ -26,7 +26,7 @@ export default function Home() {
   const projectsWidthClass = "max-w-5xl";
   const sideButtonClass = `w-12 h-12 rounded-lg border ${
     darkMode
-      ? "border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-100 hover:shadow-md"
+      ? "border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-100 hover:shadow-md"
       : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
   } shadow-sm flex items-center justify-center transition-colors`;
   const sideIconBase = "w-12 h-12 flex items-center justify-center";
@@ -75,10 +75,10 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0`}>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
       {/* Fixed Left Sidebar Nav */}
       <nav className="fixed z-20 flex items-center gap-3 left-1/2 top-3 -translate-x-1/2 md:left-4 md:top-28 md:-translate-x-0 md:flex-col">
-        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "bg-gray-800/70" : "bg-gray-100"} shadow-sm flex items-center gap-2 md:flex-col md:items-center md:gap-2`}>
+        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "shadow-sm" : "bg-gray-100 shadow-sm"} flex items-center gap-2 md:flex-col md:items-center md:gap-2`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
           <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-home side-icon"></i>
             <span className={sideLabelClass}>Home</span>
@@ -102,7 +102,10 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <header id="about" className={`container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center ${contentWidthClass}`}>
+      <header
+        id="about"
+        className={`container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center ${contentWidthClass}`}
+      >
         <div className={`mb-8 overflow-hidden rounded-full border ${darkMode ? "border-gray-600" : "border-gray-300"} shadow-sm`}>
           <img
             src="/profile-photo.jpeg"
@@ -176,9 +179,10 @@ export default function Home() {
       </header>
 
       {/* Summary */}
-      <section className={`${subtleBgClass} py-12`}>
+      <section className={`${subtleBgClass} py-12`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
         <div className={`container mx-auto px-4 ${contentWidthClass}`}>
-          <h2 className="text-2xl font-serif font-semibold mb-4 text-center">About Me</h2>
+          <h2 className="text-2xl font-serif font-semibold mb-2 text-center">About Me</h2>
+          <div className="mx-auto mb-6 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
           <p className={`text-base leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl mx-auto`}>
             I’m the Founder of Kmino and Core Manager at Syscoin. I design, ship, and scale production-grade blockchain products across UTXO/EVM stacks, L2s and ZK systems. 
             My work spans protocol design, DeFi markets, wallets, and on-chain identity, with deep experience in Solidity/Move, rollups, and performance-focused architectures.
@@ -208,7 +212,8 @@ export default function Home() {
       `}</style>
       {/* Work Experience */}
       <section id="experience" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
-        <h2 className="text-2xl font-serif font-semibold mb-10 text-center">Work Experience</h2>
+        <h2 className="text-2xl font-serif font-semibold mb-2 text-center">Work Experience</h2>
+        <div className="mx-auto mb-8 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
 
         {/* Kmino */}
         <div className="mb-12 max-w-4xl mx-auto">
@@ -316,11 +321,12 @@ export default function Home() {
 
       {/* Skills */}
       <section id="skills" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
-        <h2 className="text-2xl font-serif font-semibold mb-8 text-center">Skills & Expertise</h2>
+        <h2 className="text-2xl font-serif font-semibold mb-2 text-center">Skills & Expertise</h2>
+        <div className="mx-auto mb-8 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Blockchain Skills */}
-          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
+          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`} style={darkMode ? { backgroundColor: "#161617" } : undefined}>
             <h3 className="text-xl font-bold mb-4 text-orange-500">Blockchain Development</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
@@ -343,7 +349,7 @@ export default function Home() {
           </div>
 
           {/* Development Tools */}
-          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
+          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`} style={darkMode ? { backgroundColor: "#161617" } : undefined}>
             <h3 className="text-xl font-bold mb-4 text-orange-500">Development Tools</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
