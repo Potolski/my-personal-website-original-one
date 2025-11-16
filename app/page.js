@@ -20,36 +20,60 @@ export default function Home() {
   const bodyTextClass = darkMode ? "text-gray-300" : "text-gray-600";
   const accentTextClass = darkMode ? "text-blue-400" : "text-blue-600";
   const cardShadowClass = darkMode ? "shadow-md" : "shadow-lg";
+  const contentWidthClass = "max-w-4xl";
+  const projectsWidthClass = "max-w-5xl";
+  const sideButtonClass = `w-12 h-12 rounded-lg border ${
+    darkMode
+      ? "border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-100 hover:shadow-md"
+      : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
+  } shadow-sm flex items-center justify-center transition-colors`;
 
   return (
     <div className={`min-h-screen ${bgClass} ${textClass}`}>
-      {/* Navigation */}
-      <nav className={`${navBgClass} p-4 sticky top-0 z-10 shadow-lg`}>
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold">David Potolski Lafetá</h1>
-          <div className="flex space-x-4 items-center">
-            <a href="#about" className={`hover:${accentTextClass} transition-colors`}>About</a>
-            <a href="#experience" className={`hover:${accentTextClass} transition-colors`}>Experience</a>
-            <a href="#projects" className={`hover:${accentTextClass} transition-colors`}>Projects</a>
-            <a href="#skills" className={`hover:${accentTextClass} transition-colors`}>Skills</a>
-            <button
-              onClick={toggleTheme}
-              className="ml-4 p-2 rounded-full hover:bg-gray-700 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle dark/light mode"
-            >
-              {darkMode ? (
-                <i className="fas fa-sun text-yellow-300"></i>
-              ) : (
-                <i className="fas fa-moon text-blue-400"></i>
-              )}
-            </button>
-          </div>
+      {/* Fixed Left Sidebar Nav */}
+      <nav className="fixed left-4 top-28 z-20 flex flex-col items-center gap-2.5">
+        <a href="#about" aria-label="About" className={`group relative side-button ${sideButtonClass}`}>
+          <i className="fas fa-home side-icon"></i>
+          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
+            darkMode ? "text-gray-100" : "text-gray-900"
+          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>About</span>
+        </a>
+        <a href="#experience" aria-label="Experience" className={`group relative side-button ${sideButtonClass}`}>
+          <i className="fas fa-user-tie side-icon"></i>
+          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
+            darkMode ? "text-gray-100" : "text-gray-900"
+          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Experience</span>
+        </a>
+        <a href="#projects" aria-label="Projects" className={`group relative side-button ${sideButtonClass}`}>
+          <i className="fas fa-th-large side-icon"></i>
+          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
+            darkMode ? "text-gray-100" : "text-gray-900"
+          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Projects</span>
+        </a>
+        <a href="#skills" aria-label="Skills" className={`group relative side-button ${sideButtonClass}`}>
+          <i className="fas fa-cogs side-icon"></i>
+          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
+            darkMode ? "text-gray-100" : "text-gray-900"
+          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Skills</span>
+        </a>
+        <div className="h-2"></div>
+        <div className={`group relative side-button ${sideButtonClass}`}>
+          <button
+            onClick={toggleTheme}
+            className="w-full h-full flex items-center justify-center"
+            aria-label="Toggle dark/light mode"
+          >
+            {darkMode ? <i className="fas fa-sun side-icon"></i> : <i className="fas fa-moon side-icon"></i>}
+          </button>
+          <span className={`pointer-events-none absolute left-full ml-3 text-base font-medium ${
+            darkMode ? "text-gray-100" : "text-gray-900"
+          } opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`}>Theme</span>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <header id="about" className="container mx-auto px-4 py-20 flex flex-col items-center justify-center text-center">
-        <div className="mb-8 overflow-hidden rounded-full border-4 border-blue-500 shadow-lg">
+      <header id="about" className={`container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center ${contentWidthClass}`}>
+        <div className={`mb-8 overflow-hidden rounded-full border ${darkMode ? "border-gray-600" : "border-gray-300"} shadow-sm`}>
           <img
             src="/profile-photo.jpeg"
             alt="David Potolski Lafetá"
@@ -60,48 +84,48 @@ export default function Home() {
             }}
           />
         </div>
-        <h1 className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
+        <h1 className="text-4xl font-serif font-bold mb-3 tracking-tight">
           David Potolski Lafetá
         </h1>
-        <p className={`text-xl mb-8 ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl`}>
-          Senior Smart Contract Engineer | DeFi Protocol Architect | Technical Team Lead
+        <p className={`text-base mb-4 ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl`}>
+          Founder @ <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="underline">Kmino</a> • Core Manager @ <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="underline">Syscoin</a>
         </p>
-        <div className={`text-lg mb-10 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-          Blockchain Development Expert specializing in Smart Contracts & DeFi Solutions
+        <div className={`text-sm mb-8 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+          Blockchain expert in EVM and UTXO chains, DeFi, ZK, and high-assurance smart contracts
         </div>
-        <div className="flex flex-wrap justify-center gap-4 mb-10">
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
           <a
             href="https://github.com/potolski"
             target="_blank"
-            className={`flex items-center px-4 py-2 ${
-              darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
-            } hover:bg-gray-700 hover:text-white rounded-lg transition-colors`}
+            className={`flex items-center px-3 py-1.5 border rounded ${
+              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
+            } transition-colors`}
           >
             <i className="fab fa-github mr-2"></i> GitHub
           </a>
           <a
             href="https://linkedin.com/in/davidpotolskilafeta/"
             target="_blank"
-            className={`flex items-center px-4 py-2 ${
-              darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
-            } hover:bg-gray-700 hover:text-white rounded-lg transition-colors`}
+            className={`flex items-center px-3 py-1.5 border rounded ${
+              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
+            } transition-colors`}
           >
             <i className="fab fa-linkedin mr-2"></i> LinkedIn
           </a>
           <a
             href="mailto:davidpotolskilafeta@gmail.com"
-            className={`flex items-center px-4 py-2 ${
-              darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
-            } hover:bg-gray-700 hover:text-white rounded-lg transition-colors`}
+            className={`flex items-center px-3 py-1.5 border rounded ${
+              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
+            } transition-colors`}
           >
             <i className="fas fa-envelope mr-2"></i> Email
           </a>
           <a
             href="https://medium.com/@davidpotolskilafeta"
             target="_blank"
-            className={`flex items-center px-4 py-2 ${
-              darkMode ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-800"
-            } hover:bg-gray-700 hover:text-white rounded-lg transition-colors`}
+            className={`flex items-center px-3 py-1.5 border rounded ${
+              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
+            } transition-colors`}
           >
             <i className="fab fa-medium mr-2"></i> Blog
           </a>
@@ -122,21 +146,47 @@ export default function Home() {
       </header>
 
       {/* Summary */}
-      <section className={`${subtleBgClass} py-16`}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">About Me</h2>
-          <p className={`text-lg ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-4xl mx-auto`}>
-            I am a Senior Smart Contract Engineer and DeFi Protocol Architect with extensive experience leading technical teams across blockchain ecosystems. 
-            I combine deep technical expertise with strong project management skills to deliver successful blockchain solutions. 
-            My expertise spans across Smart Contracts (Solidity, Move), UTXO, EVM, and ZK implementations, with a focus on DeFi protocol architecture, 
-            DEXs, DAOs, and on-chain KYC solutions.
+      <section className={`${subtleBgClass} py-12`}>
+        <div className={`container mx-auto px-4 ${contentWidthClass}`}>
+          <h2 className="text-2xl font-serif font-semibold mb-4 text-center">About Me</h2>
+          <p className={`text-base leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl mx-auto`}>
+            I’m the Founder of Kmino and Core Manager at Syscoin. I design, ship, and scale production-grade blockchain products across UTXO/EVM stacks, L2s and ZK systems. 
+            My work spans protocol design, DeFi markets, wallets, and on-chain identity, with deep experience in Solidity/Move, rollups, and performance-focused architectures.
           </p>
         </div>
       </section>
 
+      {/* Global styles for icon shake */}
+      <style jsx global>{`
+        @keyframes subtle-shake {
+          0% { transform: translateX(0) rotate(0); }
+          25% { transform: translateX(-1px) rotate(-2deg); }
+          50% { transform: translateX(1px) rotate(2deg); }
+          75% { transform: translateX(-0.5px) rotate(-2deg); }
+          100% { transform: translateX(0) rotate(0); }
+        }
+        .side-button:hover .side-icon {
+          animation: subtle-shake 0.25s ease-in-out;
+        }
+      `}</style>
       {/* Work Experience */}
-      <section id="experience" className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">Work Experience</h2>
+      <section id="experience" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
+        <h2 className="text-2xl font-serif font-semibold mb-10 text-center">Work Experience</h2>
+
+        {/* Kmino */}
+        <div className="mb-12 max-w-4xl mx-auto">
+          <div className="flex justify-between items-start mb-2">
+            <h3 className="text-2xl font-bold text-blue-400">
+              <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="hover:underline">Kmino</a>
+            </h3>
+            <div className="text-gray-400">2025 - Present</div>
+          </div>
+          <div className="text-xl mb-4">Founder - Remote</div>
+          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+            <li>Founded Kmino, an engineering studio delivering fullstack, Web3/smart contract, and AI solutions</li>
+            <li>Engagements include product builds, senior pods (staff augmentation), and advisory sprints</li>
+          </ul>
+        </div>
 
         {/* Lunos DAO */}
         <div className="mb-12 max-w-4xl mx-auto">
@@ -155,10 +205,12 @@ export default function Home() {
         {/* Syscoin */}
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-blue-400">Syscoin</h3>
+            <h3 className="text-2xl font-bold text-blue-400">
+              <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="hover:underline">Syscoin</a>
+            </h3>
             <div className="text-gray-400">May 2023 - Present</div>
           </div>
-          <div className="text-xl mb-4">Ecosystem Manager - Dubai, UAE</div>
+          <div className="text-xl mb-4">Core Manager - Dubai, UAE</div>
           <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
             <li>Oversaw internal team coordination, resource allocation, and strategic tracking across development initiatives</li>
             <li>Aligned technical workstreams, optimized resource distribution, and maintained visibility on high-priority projects</li>
@@ -170,7 +222,7 @@ export default function Home() {
         <div className="mb-12 max-w-4xl mx-auto">
           <div className="flex justify-between items-start mb-2">
             <h3 className="text-2xl font-bold text-blue-400">Pollum</h3>
-            <div className="text-gray-400">May 2023 - Present</div>
+            <div className="text-gray-400">May 2023 - May 2025</div>
           </div>
           <div className="text-xl mb-4">Tech Lead | Project Manager - British Virgin Islands</div>
           <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
@@ -211,89 +263,95 @@ export default function Home() {
         </div>
 
         <div className="text-center mt-10">
-          <a href="#" className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white">
+          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" rel="noopener noreferrer" className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white">
             View Full Work History
           </a>
         </div>
       </section>
 
       {/* Projects */}
-      <section id="projects" className={`${subtleBgClass} py-16`}>
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center">Featured Projects</h2>
+      <section id="projects" className={`${subtleBgClass} py-12`}>
+        <div className={`container mx-auto px-4 ${projectsWidthClass}`}>
+          <h2 className="text-2xl font-serif font-semibold mb-8 text-center">Featured Projects</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6">
             {/* Pali Wallet */}
-            <div className={`${cardBgClass} rounded-xl overflow-hidden ${cardShadowClass} border ${borderClass}`}>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">Pali Wallet</h3>
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-4`}>
-                  A Web3 multichain wallet supporting multiple blockchains
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>React</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Web3.js</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Blockchain</span>
+            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
+              <div className="p-7">
+                {/* Line 1: Title + Tech */}
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <h3 className="text-xl font-bold">Pali Wallet</h3>
+                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>React • Web3.js • Blockchain</span>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://paliwallet.com/" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
+                {/* Line 2: Description + Links */}
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                    A Web3 multichain wallet supporting multiple blockchains
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fab fa-github mr-1"></i> GitHub
+                    </a>
+                    <a href="https://paliwallet.com/" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fas fa-external-link-alt mr-1"></i> Website
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Lunos */}
-            <div className={`${cardBgClass} rounded-xl overflow-hidden ${cardShadowClass} border ${borderClass}`}>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">Lunos Protocol</h3>
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-4`}>
-                  Automated, trustless coverage solutions for digital assets
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Solidity</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>DeFi</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Insurance</span>
+            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
+              <div className="p-7">
+                {/* Line 1: Title + Tech */}
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <h3 className="text-xl font-bold">Lunos Protocol</h3>
+                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • Insurance</span>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <a href="https://github.com/Uno-Re" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://lunos.xyz" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
+                {/* Line 2: Description + Links */}
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                    Automated, trustless coverage solutions for digital assets
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <a href="https://github.com/Uno-Re" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fab fa-github mr-1"></i> GitHub
+                    </a>
+                    <a href="https://lunos.xyz" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fas fa-external-link-alt mr-1"></i> Website
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Pegasys.fi */}
-            <div className={`${cardBgClass} rounded-xl overflow-hidden ${cardShadowClass} border ${borderClass}`}>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">Pegasys.fi</h3>
-                <p className={`${darkMode ? "text-gray-400" : "text-gray-500"} mb-4`}>
-                  DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4 text-xs">
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>Solidity</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>DeFi</span>
-                  <span>•</span>
-                  <span className={darkMode ? "text-blue-400" : "text-blue-600"}>AMM</span>
+            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
+              <div className="p-7">
+                {/* Line 1: Title + Tech */}
+                <div className="flex flex-wrap items-baseline justify-between gap-3">
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <h3 className="text-xl font-bold">Pegasys.fi</h3>
+                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • AMM</span>
+                  </div>
                 </div>
-                <div className="flex space-x-3">
-                  <a href="https://github.com/pegasys-fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fab fa-github mr-1"></i> GitHub
-                  </a>
-                  <a href="https://app.pegasys.fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
-                    <i className="fas fa-external-link-alt mr-1"></i> Website
-                  </a>
+                {/* Line 2: Description + Links */}
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
+                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                    DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux
+                  </p>
+                  <div className="flex items-center gap-4">
+                    <a href="https://github.com/pegasys-fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fab fa-github mr-1"></i> GitHub
+                    </a>
+                    <a href="https://app.pegasys.fi" target="_blank" className="text-blue-400 hover:underline inline-flex items-center">
+                      <i className="fas fa-external-link-alt mr-1"></i> Website
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -302,12 +360,12 @@ export default function Home() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold mb-12 text-center">Skills & Expertise</h2>
+      <section id="skills" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
+        <h2 className="text-2xl font-serif font-semibold mb-8 text-center">Skills & Expertise</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Blockchain Skills */}
-          <div className={`${darkMode ? "bg-gray-800" : "bg-white"} p-6 rounded-xl shadow border ${borderClass}`}>
+          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
             <h3 className="text-xl font-bold mb-4 text-blue-400">Blockchain Development</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
@@ -330,7 +388,7 @@ export default function Home() {
           </div>
 
           {/* Development Tools */}
-          <div className={`${darkMode ? "bg-gray-800" : "bg-white"} p-6 rounded-xl shadow border ${borderClass}`}>
+          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`}>
             <h3 className="text-xl font-bold mb-4 text-blue-400">Development Tools</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
