@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
 import { ThemeContext } from "./contexts/ThemeContext";
 
@@ -28,11 +30,12 @@ export default function Home() {
       : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
   } shadow-sm flex items-center justify-center transition-colors`;
   const sideIconBase = "w-12 h-12 flex items-center justify-center";
-  const sideLabelClass = `pointer-events-none absolute left-full ml-3 text-base font-medium ${darkMode ? "text-gray-100" : "text-gray-900"} opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1`;
+  const sideLabelClass = `pointer-events-none absolute left-full ml-3 text-base font-medium ${darkMode ? "text-gray-100" : "text-gray-900"} opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1 hidden md:block`;
   const [activeSection, setActiveSection] = useState("about");
+  const pathname = usePathname();
 
   useEffect(() => {
-    const ids = ["about", "experience", "projects", "skills"];
+    const ids = ["about", "experience", "skills"];
     let ticking = false;
 
     const updateActiveByPosition = () => {
@@ -72,28 +75,20 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass}`}>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0`}>
       {/* Fixed Left Sidebar Nav */}
-      <nav className="fixed left-4 top-28 z-20 flex flex-col items-center gap-3">
-        <div className={`rounded-2xl p-2 ${darkMode ? "bg-gray-800/70" : "bg-gray-100"} shadow-sm flex flex-col items-center gap-2`}>
-          <a href="#about" aria-label="About" onClick={() => setActiveSection("about")} className={`group relative ${activeSection === "about" ? "side-button " + sideButtonClass : sideIconBase}`}>
+      <nav className="fixed z-20 flex items-center gap-3 left-1/2 top-3 -translate-x-1/2 md:left-4 md:top-28 md:-translate-x-0 md:flex-col">
+        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "bg-gray-800/70" : "bg-gray-100"} shadow-sm flex items-center gap-2 md:flex-col md:items-center md:gap-2`}>
+          <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-home side-icon"></i>
-            <span className={sideLabelClass}>About</span>
-          </a>
-          <a href="#experience" aria-label="Experience" onClick={() => setActiveSection("experience")} className={`group relative ${activeSection === "experience" ? "side-button " + sideButtonClass : sideIconBase}`}>
-            <i className="fas fa-user-tie side-icon"></i>
-            <span className={sideLabelClass}>Experience</span>
-          </a>
-          <a href="#projects" aria-label="Projects" onClick={() => setActiveSection("projects")} className={`group relative ${activeSection === "projects" ? "side-button " + sideButtonClass : sideIconBase}`}>
+            <span className={sideLabelClass}>Home</span>
+          </Link>
+          <Link href="/projects" aria-label="Projects" className={`group relative ${pathname === "/projects" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-th-large side-icon"></i>
             <span className={sideLabelClass}>Projects</span>
-          </a>
-          <a href="#skills" aria-label="Skills" onClick={() => setActiveSection("skills")} className={`group relative ${activeSection === "skills" ? "side-button " + sideButtonClass : sideIconBase}`}>
-            <i className="fas fa-cogs side-icon"></i>
-            <span className={sideLabelClass}>Skills</span>
-          </a>
+          </Link>
         </div>
-        <div className="h-2"></div>
+        <div className="h-2 md:h-2"></div>
         <div className="group relative">
           <button
             onClick={toggleTheme}
@@ -305,101 +300,19 @@ export default function Home() {
         </div>
 
         <div className="text-center mt-10">
-          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" rel="noopener noreferrer" className="inline-block px-6 py-3 bg-orange-600 hover:bg-orange-700 rounded-lg transition-colors text-white">
+          <a
+            href="https://linkedin.com/in/davidpotolskilafeta/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 rounded-lg transition-colors text-white hover:opacity-90"
+            style={{ backgroundColor: "#f97316" }}
+          >
             View Full Work History
           </a>
         </div>
       </section>
 
-      {/* Projects */}
-      <section id="projects" className={`${subtleBgClass} py-12`}>
-        <div className={`container mx-auto px-4 ${projectsWidthClass}`}>
-          <h2 className="text-2xl font-serif font-semibold mb-8 text-center">Featured Projects</h2>
-
-          <div className="grid grid-cols-1 gap-6">
-            {/* Pali Wallet */}
-            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-              <div className="p-7">
-                {/* Line 1: Title + Tech */}
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <h3 className="text-xl font-bold">Pali Wallet</h3>
-                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>React • Web3.js • Blockchain</span>
-                  </div>
-                </div>
-                {/* Line 2: Description + Links */}
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                    A Web3 multichain wallet supporting multiple blockchains
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <a href="https://github.com/syscoin/pali-wallet" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fab fa-github mr-1"></i> GitHub
-                    </a>
-                    <a href="https://paliwallet.com/" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fas fa-external-link-alt mr-1"></i> Website
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Lunos */}
-            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-              <div className="p-7">
-                {/* Line 1: Title + Tech */}
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <h3 className="text-xl font-bold">Lunos Protocol</h3>
-                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • Insurance</span>
-                  </div>
-                </div>
-                {/* Line 2: Description + Links */}
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                    Automated, trustless coverage solutions for digital assets
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <a href="https://github.com/Uno-Re" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fab fa-github mr-1"></i> GitHub
-                    </a>
-                    <a href="https://lunos.xyz" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fas fa-external-link-alt mr-1"></i> Website
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Pegasys.fi */}
-            <div className={`${cardBgClass} rounded-lg overflow-hidden shadow-sm border ${borderClass}`}>
-              <div className="p-7">
-                {/* Line 1: Title + Tech */}
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <h3 className="text-xl font-bold">Pegasys.fi</h3>
-                    <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Solidity • DeFi • AMM</span>
-                  </div>
-                </div>
-                {/* Line 2: Description + Links */}
-                <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
-                  <p className={`${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                    DeFi Protocol forked from Uniswap v3, running on Syscoin and Rollux
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <a href="https://github.com/pegasys-fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fab fa-github mr-1"></i> GitHub
-                    </a>
-                    <a href="https://app.pegasys.fi" target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                      <i className="fas fa-external-link-alt mr-1"></i> Website
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Projects removed from home, now at /projects */}
 
       {/* Skills */}
       <section id="skills" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>

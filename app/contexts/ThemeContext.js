@@ -5,19 +5,14 @@ import React, { createContext, useState, useEffect } from "react";
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    // Check for saved preference or use system preference
+  const getInitialMode = () => {
+    if (typeof window === 'undefined') return false; // default light during SSR
     const savedTheme = localStorage.getItem('theme');
-    
-    if (savedTheme) {
-      setDarkMode(savedTheme === 'dark');
-    } else {
-      // Default to light mode when no preference is stored
-      setDarkMode(false);
-    }
-  }, []);
+    if (savedTheme) return savedTheme === 'dark';
+    // default to light when nothing saved
+    return false;
+  };
+  const [darkMode, setDarkMode] = useState(getInitialMode);
 
   const toggleTheme = () => {
     const newMode = !darkMode;
