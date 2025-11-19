@@ -75,10 +75,16 @@ export default function Home() {
   }, []);
 
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-0 md:pt-0`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
       {/* Fixed Left Sidebar Nav */}
-      <nav className="fixed z-20 flex items-center gap-3 left-1/2 top-3 -translate-x-1/2 md:left-4 md:top-28 md:-translate-x-0 md:flex-col">
-        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "shadow-sm" : "bg-gray-100 shadow-sm"} flex items-center gap-2 md:flex-col md:items-center md:gap-2`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
+      <nav
+        className="fixed z-20 left-0 right-0 bottom-0 md:left-4 md:right-auto md:top-28 md:bottom-auto"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div
+          className={`w-full px-4 py-2 border-t flex items-center justify-around md:w-auto md:px-2 md:py-2 md:border-none md:rounded-2xl md:flex-col md:items-center md:gap-2 ${darkMode ? "" : "bg-gray-100 shadow-sm"}`}
+          style={darkMode ? { backgroundColor: "#2b2b2c", borderTopColor: "#3b3b3c" } : undefined}
+        >
           <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-home side-icon"></i>
             <span className={sideLabelClass}>Home</span>
@@ -87,17 +93,16 @@ export default function Home() {
             <i className="fas fa-th-large side-icon"></i>
             <span className={sideLabelClass}>Projects</span>
           </Link>
-        </div>
-        <div className="h-2 md:h-2"></div>
-        <div className="group relative">
-          <button
-            onClick={toggleTheme}
-            className="w-12 h-12 flex items-center justify-center"
-            aria-label="Toggle dark/light mode"
-          >
-            {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
-          </button>
-          <span className={sideLabelClass}>Theme</span>
+          <div className="group relative">
+            <button
+              onClick={toggleTheme}
+              className="w-12 h-12 flex items-center justify-center"
+              aria-label="Toggle dark/light mode"
+            >
+              {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
+            </button>
+            <span className={sideLabelClass}>Theme</span>
+          </div>
         </div>
       </nav>
 

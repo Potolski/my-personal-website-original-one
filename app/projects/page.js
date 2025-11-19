@@ -12,7 +12,7 @@ export default function ProjectsPage() {
   const textClass = darkMode ? "text-white" : "text-gray-800";
   const cardBgClass = darkMode ? "bg-gray-900" : "bg-white";
   const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
-  const projectsWidthClass = "max-w-5xl";
+  const projectsWidthClass = "max-w-4xl";
   const sideButtonClass = `w-12 h-12 rounded-lg border ${
     darkMode
       ? "border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-100 hover:shadow-md"
@@ -72,47 +72,30 @@ export default function ProjectsPage() {
     },
   ];
   const [active, setActive] = useState(0);
-  const listRef = useRef(null);
-  const viewerRef = useRef(null);
-  const [viewerHeight, setViewerHeight] = useState(null);
-  const [baseHeight, setBaseHeight] = useState(null);
-
-  useEffect(() => {
-    if (!listRef.current) return;
-    const update = () => {
-      const target = listRef.current;
-      if (!target) return;
-      const listH = target.offsetHeight || 0;
-      const cap = window.innerHeight * 0.85;
-      const measured = Math.min(listH, cap);
-      const initial = baseHeight ?? measured;
-      if (baseHeight === null) setBaseHeight(initial);
-      const finalH = Math.min(initial, measured);
-      setViewerHeight(`${finalH}px`);
-    };
-    update();
-    let ro;
-    if (typeof ResizeObserver !== "undefined") {
-      ro = new ResizeObserver(update);
-      ro.observe(listRef.current);
-    }
-    window.addEventListener("resize", update, { passive: true });
-    return () => {
-      window.removeEventListener("resize", update);
-      if (ro) ro.disconnect();
-    };
-  }, [baseHeight]);
+  const carouselRef = useRef(null);
+  const onCarouselScroll = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+    const index = Math.round(el.scrollLeft / el.clientWidth);
+    if (index !== active) setActive(index);
+  };
 
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-16 md:pt-0 relative`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-0 md:pt-0 relative`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
       {/* Soft background accents */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full opacity-10 bg-gradient-to-br from-orange-400 to-pink-500 filter blur-3xl"></div>
         <div className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full opacity-10 bg-gradient-to-tr from-orange-300 to-yellow-300 filter blur-3xl"></div>
       </div>
       {/* Sidebar (projects active) */}
-      <nav className="fixed z-20 flex items-center gap-3 left-1/2 top-3 -translate-x-1/2 md:left-4 md:top-28 md:-translate-x-0 md:flex-col">
-        <div className={`rounded-2xl p-1.5 md:p-2 ${darkMode ? "shadow-sm" : "bg-gray-100 shadow-sm"} flex items-center gap-2 md:flex-col md:items-center md:gap-2`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
+      <nav
+        className="fixed z-20 left-0 right-0 bottom-0 md:left-4 md:right-auto md:top-28 md:bottom-auto"
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      >
+        <div
+          className={`w-full px-4 py-2 border-t flex items-center justify-around md:w-auto md:px-2 md:py-2 md:border-none md:rounded-2xl md:flex-col md:items-center md:gap-2 ${darkMode ? "" : "bg-gray-100 shadow-sm"}`}
+          style={darkMode ? { backgroundColor: "#2b2b2c", borderTopColor: "#3b3b3c" } : undefined}
+        >
           <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
             <i className="fas fa-home side-icon"></i>
             <span className={sideLabelClass}>Home</span>
@@ -121,17 +104,16 @@ export default function ProjectsPage() {
             <i className="fas fa-th-large side-icon"></i>
             <span className={sideLabelClass}>Projects</span>
           </Link>
-        </div>
-        <div className="h-2"></div>
-        <div className="group relative">
-          <button
-            onClick={toggleTheme}
-            className="w-12 h-12 flex items-center justify-center"
-            aria-label="Toggle dark/light mode"
-          >
-            {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
-          </button>
-          <span className={sideLabelClass}>Theme</span>
+          <div className="group relative">
+            <button
+              onClick={toggleTheme}
+              className="w-12 h-12 flex items-center justify-center"
+              aria-label="Toggle dark/light mode"
+            >
+              {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
+            </button>
+            <span className={sideLabelClass}>Theme</span>
+          </div>
         </div>
       </nav>
 
@@ -156,85 +138,115 @@ export default function ProjectsPage() {
         }
       `}</style>
 
-      <header className={`container mx-auto px-4 py-12 ${projectsWidthClass}`}>
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-2 text-center">Featured Projects</h1>
-        <div className="mx-auto mb-4 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
-        {/* Quick-links button row */}
-        <div className="mx-auto max-w-xl flex flex-wrap items-center justify-center gap-3 mb-6">
-          <a href="https://github.com/potolski" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
-            <i className="fab fa-github mr-2"></i> GitHub
-          </a>
-          <a href="https://linkedin.com/in/davidpotolskilafeta/" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
-            <i className="fab fa-linkedin mr-2"></i> LinkedIn
-          </a>
-          <a href="mailto:davidpotolskilafeta@gmail.com" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
-            <i className="fas fa-envelope mr-2"></i> Email
-          </a>
-          <a href="https://medium.com/@davidpotolskilafeta" target="_blank" className={`inline-flex items-center px-3 py-1.5 rounded-md border text-sm ${darkMode ? "border-gray-700 text-gray-100 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"} transition-colors`}>
-            <i className="fab fa-medium mr-2"></i> Blog
-          </a>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Static visual on the left */}
-          <div className="md:sticky md:top-24">
-            <div ref={viewerRef} className={`relative w-full flex items-center justify-center`} style={{ height: viewerHeight || "12rem" }}>
-              <img
-                src={projects[active].image}
-                alt={`${projects[active].title} preview`}
-                className="max-h-full max-w-full object-contain transition-opacity duration-300"
-              />
-            </div>
-          </div>
-
-          {/* List/Accordion on the right */}
-          <div ref={listRef}>
-            <ol className="space-y-3">
-              {projects.map((p, idx) => {
-                const isActive = active === idx;
-                return (
-                  <li
-                    key={p.key}
-                    className={`group rounded-xl border ${borderClass} ${cardBgClass} shadow-sm transition-all duration-200 relative overflow-hidden ${isActive ? "shadow-md" : "hover:border-orange-300 hover:shadow-sm hover:bg-gray-50 dark:hover:bg-gray-900"}`}
+      <header className={`container mx-auto px-0 md:px-4 py-6 md:py-12 ${projectsWidthClass}`}>
+        <h1 className="text-2xl md:text-4xl font-semibold tracking-tight mb-2 text-center">Featured Projects</h1>
+        <div className="mx-auto mb-4 md:mb-8 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
+        
+        {/* Mobile: Carousel */}
+        <div className="md:hidden">
+          <div
+            ref={carouselRef}
+            onScroll={onCarouselScroll}
+            className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
+          >
+            {projects.map((p, idx) => (
+              <section key={p.key} className="min-w-full snap-start px-3">
+                <div className="flex flex-col items-stretch gap-3">
+                  <div className="w-full flex items-center justify-center">
+                    <img
+                      src={p.image}
+                      alt={`${p.title} preview`}
+                      className="w-full object-contain max-h-[20vh]"
+                    />
+                  </div>
+                  <div
+                    className={`w-full rounded-xl border ${borderClass} ${cardBgClass} p-3 shadow-sm`}
                     style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}
                   >
-                    <button
-                      onClick={() => setActive(idx)}
-                      className="w-full text-left px-4 py-3 md:py-4 flex items-center justify-between rounded-xl outline-none focus:outline-none focus-visible:outline-none"
-                      aria-expanded={isActive}
-                    >
-                      {/* Left orange bar */}
-                      <span
-                        className="absolute left-0 top-0 h-full transition-all duration-300"
-                        style={{ width: isActive ? "6px" : "3px", backgroundColor: "#f97316" }}
-                      ></span>
-                      <h3
-                        className={`font-semibold tracking-tight text-2xl md:text-3xl transition-colors duration-300`}
-                        style={isActive ? { color: "#f97316" } : undefined}
-                      >
-                        {p.title}
-                      </h3>
-                    </button>
-                    <div className={`px-4 transition-[max-height,opacity,padding] ${isActive ? "duration-300" : "duration-150"} ease-in-out overflow-hidden ${isActive ? "max-h-60 md:max-h-72 opacity-100 pb-4" : "max-h-0 opacity-0 pb-0"}`}>
-                      <div className="h-px w-full mb-3 bg-gray-200 dark:bg-gray-800"></div>
+                    <h3 className="text-lg font-semibold mb-1" style={{ color: idx === active ? "#f97316" : undefined }}>
+                      {p.title}
+                    </h3>
+                    <div className="h-px w-full mb-2 bg-gray-200 dark:bg-gray-800"></div>
+                    <div className={`text-xs mb-1.5 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{p.tech}</div>
+                    <div className={`${darkMode ? "text-gray-300" : "text-gray-700"} mb-2 text-xs`}>{p.description}</div>
+                    <div className="flex items-center gap-3">
+                      {p.links.map((l) => (
+                        <a key={l.href} href={l.href} target="_blank" className="text-orange-600 hover:underline inline-flex items-center text-xs">
+                          <i className={`${l.icon} mr-1`}></i> {l.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+            ))}
+          </div>
+          {/* Carousel indicators */}
+          <div className="flex items-center justify-center gap-2 mt-3">
+            {projects.map((_, i) => (
+              <span
+                key={i}
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  i === active ? "bg-orange-500" : "bg-gray-300 dark:bg-gray-700"
+                }`}
+              ></span>
+            ))}
+            <span className="text-xs ml-1 text-gray-500 dark:text-gray-400">
+              {active + 1}/{projects.length}
+            </span>
+          </div>
+        </div>
+
+        {/* Desktop: Static image + Accordion */}
+        <div className="hidden md:flex md:gap-8 md:items-start">
+          {/* Static image viewer */}
+          <div className="flex-shrink-0 w-1/2">
+            <img
+              src={projects[active].image}
+              alt={`${projects[active].title} preview`}
+              className="w-full object-contain max-h-[28rem] transition-opacity duration-300"
+            />
+          </div>
+
+          {/* Accordion cards */}
+          <div className="flex-1 space-y-3">
+            {projects.map((p, idx) => (
+              <div
+                key={p.key}
+                className={`rounded-xl border ${borderClass} ${cardBgClass} shadow-sm overflow-hidden transition-all duration-300 cursor-pointer hover:shadow-md`}
+                style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}
+                onClick={() => setActive(idx)}
+              >
+                <div className={`p-4 ${idx === active ? "" : ""}`}>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-semibold" style={{ color: idx === active ? "#f97316" : undefined }}>
+                      {p.title}
+                    </h3>
+                    <i className={`fas fa-chevron-${idx === active ? "up" : "down"} text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}></i>
+                  </div>
+                  
+                  {idx === active && (
+                    <div className="mt-3 pt-3 border-t" style={{ borderColor: darkMode ? "#3b3b3c" : "#e5e7eb" }}>
                       <div className={`text-sm mb-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>{p.tech}</div>
-                      <div className={`${darkMode ? "text-gray-300" : "text-gray-700"} mb-3`}>{p.description}</div>
+                      <div className={`${darkMode ? "text-gray-300" : "text-gray-700"} mb-3 text-base`}>{p.description}</div>
                       <div className="flex items-center gap-4">
                         {p.links.map((l) => (
-                          <a key={l.href} href={l.href} target="_blank" className="text-orange-600 hover:underline inline-flex items-center">
-                            <i className={`${l.icon} mr-1`}></i> {l.label}
+                          <a 
+                            key={l.href} 
+                            href={l.href} 
+                            target="_blank" 
+                            className="text-orange-600 hover:underline inline-flex items-center text-sm"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <i className={`${l.icon} mr-1.5`}></i> {l.label}
                           </a>
                         ))}
                       </div>
                     </div>
-                    {/* Divider between items */}
-                    {idx !== projects.length - 1 && (
-                      <div className="absolute -bottom-2 left-3 right-3 h-px bg-gray-200 dark:bg-gray-800 opacity-60 md:hidden"></div>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </header>
