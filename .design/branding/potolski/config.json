@@ -1,0 +1,59 @@
+{
+  "version": "0.7.4",
+  "project_type": "brand",
+  "brand": {
+    "name": "potolski",
+    "created": "2026-04-17"
+  },
+  "brand_mode": "evolve",
+  "e2e": false,
+  "evolution_scope": {
+    "preserve": [
+      "dark mode support",
+      "content width (max-w-4xl)",
+      "serif-headings / sans-body pairing (move)",
+      "Experience section structure (role, company, dates, city, bullets)",
+      "About Me paragraph copy (already rewritten)",
+      "Kmino bullets (already rewritten)",
+      "projects accordion + carousel pattern",
+      "hero tagline (already rewritten)"
+    ],
+    "evolve": [
+      "serif typeface (Tailwind default Georgia -> crafted serif via next/font)",
+      "orange accent usage (reduce from 6+ registers to 1; hue stays or refines)",
+      "hero layout (centered -> left-aligned, shrink or drop photo)",
+      "navigation (commit with more content or simplify to top-right)",
+      "whitespace density (tighten vertical rhythm)",
+      "company-name styling (drop orange, use weight/size)",
+      "Work History CTA (solid button -> inline link)",
+      "project descriptions (tagline -> role + stack + one specific)",
+      "projects H1 typography (align with home serif)",
+      "inline color tokens (centralize to CSS vars or Tailwind theme)",
+      "dark surface palette (3 tiers -> 2 tiers)"
+    ],
+    "replace": [
+      "hero subline 'Founder @ Kmino • Core Manager @ Syscoin' (leads with business ownership)",
+      "social-button row (rounded-border buttons -> quiet inline text links)",
+      "orange tech-keyword row (Solidity • Move • UTXO...)",
+      "Skills checkmark cards (-> named-systems table or prose)",
+      "section-divider orange bars (h-0.5 w-16)",
+      "decorative gradient blobs (/projects)",
+      "Experience bullet voice (outcomes-without-specifics -> named systems)",
+      "meta title and description",
+      "Tailwind + FontAwesome CDN links (-> installed deps / tree-shaken icons)",
+      "dead scroll-spy code (activeSection state)"
+    ],
+    "add": [
+      "writing surface (home section linking 3-5 Medium posts, ideally native /writing)",
+      "explicit availability line or status pill below name",
+      "deep links to PRs / repos for named systems (zkSYS, Syscoin core, Epic Cash Rust)"
+    ]
+  },
+  "system_config": {
+    "tech_stack": "Next.js 14 + React 18 + inline Tailwind classes",
+    "system_strategy": "generate",
+    "style_preset": "",
+    "style_base": []
+  },
+  "gsp_version": "0.7.2"
+}

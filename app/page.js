@@ -1,38 +1,22 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Inter } from "next/font/google";
 import { ThemeContext } from "./contexts/ThemeContext";
+import Navbar from "./components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
 
   // Theme classes
   const bgClass = darkMode ? "bg-gray-900" : "bg-white";
   const textClass = darkMode ? "text-white" : "text-gray-800";
-  const navBgClass = darkMode ? "bg-gray-800" : "bg-white";
   const subtleBgClass = darkMode ? "bg-gray-700" : "bg-gray-50";
-  const cardBgClass = darkMode ? "bg-gray-900" : "bg-white";
   const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
-  const subtleTextClass = darkMode ? "text-gray-400" : "text-gray-500";
-  const bodyTextClass = darkMode ? "text-gray-300" : "text-gray-600";
-  const accentTextClass = darkMode ? "text-orange-400" : "text-orange-600";
-  const cardShadowClass = darkMode ? "shadow-md" : "shadow-lg";
   const contentWidthClass = "max-w-4xl";
-  const projectsWidthClass = "max-w-5xl";
-  const sideButtonClass = `w-12 h-12 rounded-lg border ${
-    darkMode
-      ? "border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-100 hover:shadow-md"
-      : "border-gray-300 bg-white hover:bg-gray-50 text-gray-800 hover:shadow-md"
-  } shadow-sm flex items-center justify-center transition-colors`;
-  const sideIconBase = "w-12 h-12 flex items-center justify-center";
-  const sideLabelClass = `pointer-events-none absolute left-full ml-3 text-base font-medium ${darkMode ? "text-gray-100" : "text-gray-900"} opacity-0 group-hover:opacity-100 transform transition-all group-hover:translate-x-1 hidden md:block`;
   const [activeSection, setActiveSection] = useState("about");
-  const pathname = usePathname();
 
   useEffect(() => {
     const ids = ["about", "experience", "skills"];
@@ -74,37 +58,10 @@ export default function Home() {
     };
   }, []);
 
+
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-0 md:pt-0`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
-      {/* Fixed Left Sidebar Nav */}
-      <nav
-        className="fixed z-20 left-0 right-0 bottom-0 md:left-4 md:right-auto md:top-28 md:bottom-auto"
-        style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
-      >
-        <div
-          className={`w-full px-4 py-2 border-t flex items-center justify-around md:w-auto md:px-2 md:py-2 md:border-none md:rounded-2xl md:flex-col md:items-center md:gap-2 ${darkMode ? "" : "bg-gray-100 shadow-sm"}`}
-          style={darkMode ? { backgroundColor: "#2b2b2c", borderTopColor: "#3b3b3c" } : undefined}
-        >
-          <Link href="/" aria-label="Home" className={`group relative ${pathname === "/" ? "side-button " + sideButtonClass : sideIconBase}`}>
-            <i className="fas fa-home side-icon"></i>
-            <span className={sideLabelClass}>Home</span>
-          </Link>
-          <Link href="/projects" aria-label="Projects" className={`group relative ${pathname === "/projects" ? "side-button " + sideButtonClass : sideIconBase}`}>
-            <i className="fas fa-th-large side-icon"></i>
-            <span className={sideLabelClass}>Projects</span>
-          </Link>
-          <div className="group relative">
-            <button
-              onClick={toggleTheme}
-              className="w-12 h-12 flex items-center justify-center"
-              aria-label="Toggle dark/light mode"
-            >
-              {darkMode ? <i key="sun" className="fas fa-sun side-icon toggle-icon"></i> : <i key="moon" className="fas fa-moon side-icon toggle-icon"></i>}
-            </button>
-            <span className={sideLabelClass}>Theme</span>
-          </div>
-        </div>
-      </nav>
+    <div className={`min-h-screen ${bgClass} ${textClass} pt-14`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
+      <Navbar />
 
       {/* Hero Section */}
       <header
@@ -195,26 +152,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Global styles for icon shake and toggle morph */}
-      <style jsx global>{`
-        @keyframes subtle-shake {
-          0% { transform: translateX(0) rotate(0); }
-          25% { transform: translateX(-1px) rotate(-2deg); }
-          50% { transform: translateX(1px) rotate(2deg); }
-          75% { transform: translateX(-0.5px) rotate(-2deg); }
-          100% { transform: translateX(0) rotate(0); }
-        }
-        .side-button:hover .side-icon {
-          animation: subtle-shake 0.25s ease-in-out;
-        }
-        @keyframes toggle-morph {
-          0% { transform: rotate(-20deg) scale(0.85); opacity: 0.85; }
-          100% { transform: rotate(0deg) scale(1); opacity: 1; }
-        }
-        .toggle-icon {
-          animation: toggle-morph 220ms ease-in-out;
-        }
-      `}</style>
       {/* Work Experience */}
       <section id="experience" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
         <h2 className="text-2xl font-serif font-semibold mb-2 text-center">Work Experience</h2>
@@ -323,6 +260,7 @@ export default function Home() {
       </section>
 
       {/* Projects removed from home, now at /projects */}
+      {/* Events moved to /events */}
 
       {/* Skills */}
       <section id="skills" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
