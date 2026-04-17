@@ -129,7 +129,7 @@ export default function Home() {
           Founder @ <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Kmino</a> • Core Manager @ <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Syscoin</a>
         </p>
         <div className={`text-sm mb-8 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-          Blockchain expert in EVM and UTXO chains, DeFi, ZK, and high-assurance smart contracts
+          Blockchain engineer working across EVM and UTXO chains, DeFi, ZK, and smart contracts — open to new opportunities
         </div>
         <div className="flex flex-wrap justify-center gap-3 mb-8">
           <a
@@ -189,8 +189,8 @@ export default function Home() {
           <h2 className="text-2xl font-serif font-semibold mb-2 text-center">About Me</h2>
           <div className="mx-auto mb-6 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
           <p className={`text-base leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl mx-auto`}>
-            I’m the Founder of Kmino and Core Manager at Syscoin. I design, ship, and scale production-grade blockchain products across UTXO/EVM stacks, L2s and ZK systems. 
-            My work spans protocol design, DeFi markets, wallets, and on-chain identity, with deep experience in Solidity/Move, rollups, and performance-focused architectures.
+            I’m a blockchain engineer, currently Core Manager at Syscoin and running Kmino — a small engineering studio — on the side.
+            Over the past several years I’ve worked across UTXO and EVM chains, L2s, and ZK systems, contributing to protocols, DeFi markets, wallets, and on-chain identity. Most of my day-to-day is Solidity and Move, along with the tooling around rollups and smart contract infrastructure.
           </p>
         </div>
       </section>
@@ -230,8 +230,8 @@ export default function Home() {
           </div>
           <div className="text-xl mb-4">Founder - Remote</div>
           <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Founded Kmino, an engineering studio delivering fullstack, Web3/smart contract, and AI solutions</li>
-            <li>Engagements include product builds, senior pods (staff augmentation), and advisory sprints</li>
+            <li>Run a small engineering studio alongside a few other engineers, taking on Web3, smart contract, and fullstack work</li>
+            <li>Engagements have ranged from product builds to senior engineering support and short advisory sprints</li>
           </ul>
         </div>
 
