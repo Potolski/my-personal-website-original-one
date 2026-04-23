@@ -1,32 +1,34 @@
-import ThemeWrapper from './components/ThemeWrapper';
+import './globals.css';
+import ThemeToggle from './components/ThemeToggle';
+import AnimatedBackground from './components/AnimatedBackground';
+import ThemeInit from './components/ThemeInit';
 
 export const metadata = {
-  title: 'David Potolski Lafeta | Blockchain & Emerging Technologies',
-  description: 'Software engineer and technical leader with expertise in blockchain, fintech, and distributed systems.',
+  title: 'David Potolski — Senior Software Engineer',
+  description: 'Senior Software Engineer — zk systems, DeFi, smart contracts. Based in Florianópolis, Brazil.',
   icons: {
-    icon: [
-      { url: '/favicon.png', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/favicon.png' }
-    ]
-  }
-}
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
+    apple: [{ url: '/favicon.png' }],
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&family=EB+Garamond:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+        <ThemeInit />
       </head>
       <body>
-        <ThemeWrapper>
-          {children}
-        </ThemeWrapper>
+        {children}
+        <AnimatedBackground />
+        <ThemeToggle />
       </body>
     </html>
-  )
+  );
 }

@@ -1,320 +1,122 @@
-"use client";
+import Link from 'next/link';
+import Navbar from './components/Navbar';
+import Terminal from './components/Terminal';
+import Reveal from './components/Reveal';
 
-import React, { useContext, useEffect, useState } from "react";
-import { Inter } from "next/font/google";
-import { ThemeContext } from "./contexts/ThemeContext";
-import Navbar from "./components/Navbar";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
-  const { darkMode } = useContext(ThemeContext);
-
-  // Theme classes
-  const bgClass = darkMode ? "bg-gray-900" : "bg-white";
-  const textClass = darkMode ? "text-white" : "text-gray-800";
-  const subtleBgClass = darkMode ? "bg-gray-700" : "bg-gray-50";
-  const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
-  const contentWidthClass = "max-w-4xl";
-  const [activeSection, setActiveSection] = useState("about");
-
-  useEffect(() => {
-    const ids = ["about", "experience", "skills"];
-    let ticking = false;
-
-    const updateActiveByPosition = () => {
-      const targetY = window.innerHeight * 0.33; // roughly 1/3 from top
-      let bestId = ids[0];
-      let bestDist = Number.POSITIVE_INFINITY;
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
-        const dist = Math.abs(rect.top - targetY);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestId = id;
-        }
-      }
-      setActiveSection(bestId);
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateActiveByPosition();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    updateActiveByPosition();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-
+export default function HomePage() {
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} pt-14`} style={darkMode ? { backgroundColor: "#171717", color: "#e5e7eb" } : undefined}>
+    <div className="page" data-screen-label="Home">
       <Navbar />
+      <main className="home">
+        <section className="hero">
+          <div className="hero-left">
+            <Terminal />
 
-      {/* Hero Section */}
-      <header
-        id="about"
-        className={`container mx-auto px-4 py-16 flex flex-col items-center justify-center text-center ${contentWidthClass}`}
-      >
-        <div className={`mb-8 overflow-hidden rounded-full border ${darkMode ? "border-gray-600" : "border-gray-300"} shadow-sm`}>
-          <img
-            src="/profile-photo.jpeg"
-            alt="David Potolski Lafetá"
-            className="w-40 h-40 object-cover"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "https://via.placeholder.com/160?text=CV";
-            }}
-          />
-        </div>
-        <h1 className="text-4xl font-serif font-bold mb-3 tracking-tight">
-          David Potolski Lafetá
-        </h1>
-        <p className={`text-base mb-4 ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl`}>
-          Founder @ <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Kmino</a> • Core Manager @ <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="underline text-orange-600 dark:text-orange-400">Syscoin</a>
-        </p>
-        <div className={`text-sm mb-8 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-          Blockchain engineer working across EVM and UTXO chains, DeFi, ZK, and smart contracts — open to new opportunities
-        </div>
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          <a
-            href="https://github.com/potolski"
-            target="_blank"
-            className={`flex items-center px-3 py-1.5 border rounded ${
-              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
-            } transition-colors`}
-          >
-            <i className="fab fa-github mr-2"></i> GitHub
-          </a>
-          <a
-            href="https://linkedin.com/in/davidpotolskilafeta/"
-            target="_blank"
-            className={`flex items-center px-3 py-1.5 border rounded ${
-              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
-            } transition-colors`}
-          >
-            <i className="fab fa-linkedin mr-2"></i> LinkedIn
-          </a>
-          <a
-            href="mailto:davidpotolskilafeta@gmail.com"
-            className={`flex items-center px-3 py-1.5 border rounded ${
-              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
-            } transition-colors`}
-          >
-            <i className="fas fa-envelope mr-2"></i> Email
-          </a>
-          <a
-            href="https://medium.com/@davidpotolskilafeta"
-            target="_blank"
-            className={`flex items-center px-3 py-1.5 border rounded ${
-              darkMode ? "border-gray-600 text-gray-200 hover:bg-gray-800" : "border-gray-300 text-gray-800 hover:bg-gray-50"
-            } transition-colors`}
-          >
-            <i className="fab fa-medium mr-2"></i> Blog
-          </a>
-        </div>
-        <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>Solidity</span>
-          <span>•</span>
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>Move</span>
-          <span>•</span>
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>UTXO</span>
-          <span>•</span>
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>EVM</span>
-          <span>•</span>
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>ZK</span>
-          <span>•</span>
-          <span className={darkMode ? "text-orange-400" : "text-orange-600"}>DeFi</span>
-        </div>
-      </header>
+            <h1 data-reveal>
+              Engineer<br />
+              of <em>onchain</em><br />
+              systems.
+            </h1>
 
-      {/* Summary */}
-      <section className={`${subtleBgClass} py-12`} style={darkMode ? { backgroundColor: "#2b2b2c" } : undefined}>
-        <div className={`container mx-auto px-4 ${contentWidthClass}`}>
-          <h2 className="text-2xl font-serif font-semibold mb-2 text-center">About Me</h2>
-          <div className="mx-auto mb-6 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
-          <p className={`text-base leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"} max-w-3xl mx-auto`}>
-            I’m a blockchain engineer, currently Core Manager at Syscoin and running Kmino — a small engineering studio — on the side.
-            Over the past several years I’ve worked across UTXO and EVM chains, L2s, and ZK systems, contributing to protocols, DeFi markets, wallets, and on-chain identity. Most of my day-to-day is Solidity and Move, along with the tooling around rollups and smart contract infrastructure.
-          </p>
-        </div>
-      </section>
+            <p className="lede" data-reveal>
+              I&apos;m <b>David Potolski</b> — a <b>senior blockchain engineer</b> and <b>technical lead</b>.
+              8+ years shipping smart contracts, DeFi protocols and zk infrastructure across multi-chain
+              ecosystems. Core Technical Lead at <b>Syscoin</b>, co-founder of <b>Kmino</b> — a product
+              studio building our own things in Web3, Fintech and AI, with AI-assisted engineering
+              embedded in every step.
+            </p>
 
-      {/* Work Experience */}
-      <section id="experience" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
-        <h2 className="text-2xl font-serif font-semibold mb-2 text-center">Work Experience</h2>
-        <div className="mx-auto mb-8 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
-
-        {/* Kmino */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">
-              <a href="https://www.kmino.io/" target="_blank" rel="noopener noreferrer" className="hover:underline text-inherit">Kmino</a>
-            </h3>
-            <div className="text-gray-400">2025 - Present</div>
-          </div>
-          <div className="text-xl mb-4">Founder - Remote</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Run a small engineering studio alongside a few other engineers, taking on Web3, smart contract, and fullstack work</li>
-            <li>Engagements have ranged from product builds to senior engineering support and short advisory sprints</li>
-          </ul>
-        </div>
-
-        {/* Lunos DAO */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">Lunos DAO</h3>
-            <div className="text-gray-400">August 2024 - Present</div>
-          </div>
-          <div className="text-xl mb-4">Tech Lead - Dubai, UAE</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Led the redesigning of the core smart contract architecture</li>
-            <li>Enhanced scalability, security, and interoperability while optimizing gas efficiency</li>
-            <li>Built automated, trustless coverage solutions that protect digital assets across the blockchain ecosystem</li>
-          </ul>
-        </div>
-
-        {/* Syscoin */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">
-              <a href="https://syscoin.org/" target="_blank" rel="noopener noreferrer" className="hover:underline text-inherit">Syscoin</a>
-            </h3>
-            <div className="text-gray-400">May 2023 - Present</div>
-          </div>
-          <div className="text-xl mb-4">Core Manager - Dubai, UAE</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Oversaw internal team coordination, resource allocation, and strategic tracking across development initiatives</li>
-            <li>Aligned technical workstreams, optimized resource distribution, and maintained visibility on high-priority projects</li>
-            <li>Led the development of zkSYS, Syscoin's first Edgechain built with zkRollup technology</li>
-          </ul>
-        </div>
-        
-        {/* Pollum */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">Pollum</h3>
-            <div className="text-gray-400">May 2023 - May 2025</div>
-          </div>
-          <div className="text-xl mb-4">Tech Lead | Project Manager - British Virgin Islands</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Developed KYC solutions and built DID implementations for on-chain primary and secondary sales</li>
-            <li>Led smart contract development for UnoRe and managed Pegasys.fi DeFi protocol (Uniswap v3 fork)</li>
-            <li>Managed development of Pali wallet, a successful crypto wallet extension</li>
-          </ul>
-        </div>
-
-        {/* Clevertech */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">Clevertech</h3>
-            <div className="text-gray-400">August 2022 - March 2023</div>
-          </div>
-          <div className="text-xl mb-4">Software Engineer - New York, United States</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Designed and implemented three major smart contract projects deployed to mainnet</li>
-            <li>Developed a proof of attendance NFT system on Polygon for tracking event participation</li>
-            <li>Created an NFT collection with packs and cards system, achieving over 1,400 token mints</li>
-            <li>Built a custodial wallet exclusively for client NFTs using Solidity and Hardhat</li>
-          </ul>
-        </div>
-
-        {/* Brick Abode */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-2xl font-bold text-orange-500">Brick Abode</h3>
-            <div className="text-gray-400">August 2019 - March 2022</div>
-          </div>
-          <div className="text-xl mb-4">Software Engineer | Project Manager - Salem, Virginia</div>
-          <ul className={`list-disc pl-5 space-y-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            <li>Led the Epic Cash blockchain upgrade (MimbleWimble implementation in Rust) from v2.17 to v3.0</li>
-            <li>Implemented NFT support and royalty marketplace features using Solidity (ERC-721 and ERC-2981)</li>
-            <li>Developed core APIs for cryptocurrency asset management, including market data streaming and order management</li>
-            <li>Managed a social media analytics platform maintenance team and led startup planning initiatives</li>
-          </ul>
-        </div>
-
-        <div className="text-center mt-10">
-          <a
-            href="https://linkedin.com/in/davidpotolskilafeta/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-6 py-3 rounded-lg transition-colors text-white hover:opacity-90"
-            style={{ backgroundColor: "#f97316" }}
-          >
-            View Full Work History
-          </a>
-        </div>
-      </section>
-
-      {/* Projects removed from home, now at /projects */}
-      {/* Events moved to /events */}
-
-      {/* Skills */}
-      <section id="skills" className={`container mx-auto px-4 py-14 ${contentWidthClass}`}>
-        <h2 className="text-2xl font-serif font-semibold mb-2 text-center">Skills & Expertise</h2>
-        <div className="mx-auto mb-8 h-0.5 w-16 rounded" style={{ backgroundColor: "#f97316" }}></div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Blockchain Skills */}
-          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`} style={darkMode ? { backgroundColor: "#161617" } : undefined}>
-            <h3 className="text-xl font-bold mb-4 text-orange-500">Blockchain Development</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>Smart Contracts (Solidity, Move)</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>UTXO & EVM Systems</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>DeFi Protocol Architecture</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>ZK Implementations</span>
-              </li>
-            </ul>
+            <div className="meta-row" data-reveal>
+              <div className="cell">
+                <div className="k">Capital covered</div>
+                <div className="v">$20M<span className="unit">+</span></div>
+              </div>
+              <div className="cell">
+                <div className="k">Years in industry</div>
+                <div className="v">8<span className="unit">+ yrs</span></div>
+              </div>
+              <div className="cell">
+                <div className="k">Based</div>
+                <div className="v">Florianópolis<span className="unit"> / BR</span></div>
+              </div>
+            </div>
           </div>
 
-          {/* Development Tools */}
-          <div className={`${darkMode ? "bg-gray-900" : "bg-white"} p-6 rounded-lg border ${borderClass}`} style={darkMode ? { backgroundColor: "#161617" } : undefined}>
-            <h3 className="text-xl font-bold mb-4 text-orange-500">Development Tools</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>Hardhat</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>Truffle</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>OpenZeppelin</span>
-              </li>
-              <li className="flex items-center">
-                <i className="fas fa-check-circle text-green-500 mr-2"></i>
-                <span className={darkMode ? "" : "text-gray-700"}>Ethers.js</span>
-              </li>
-            </ul>
+          <div className="hero-right" data-reveal>
+            <div className="frame">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/hero-portrait.jpeg" alt="David Potolski presenting Lunos at Devcon" />
+            </div>
+            <span className="badge">portrait / devcon 2025</span>
+            <span className="tag">david · on stage</span>
           </div>
+        </section>
+
+        <section className="flow" data-reveal aria-label="Site sections">
+          <Link className="flow-card" href="/work">
+            <span className="f-idx">02 / next</span>
+            <span className="f-title">Work</span>
+            <span className="f-desc">The full timeline — 8+ years across Kmino, Syscoin, Lunos, Clevertech, Brick Abode and more. Plus certifications &amp; awards.</span>
+            <span className="f-meta"><span>6 companies</span>·<span>AI-assisted delivery</span></span>
+            <span className="f-arrow">↗</span>
+          </Link>
+          <Link className="flow-card" href="/about">
+            <span className="f-idx">03 / next</span>
+            <span className="f-title">About</span>
+            <span className="f-desc">Bio, photos from hackathons, conferences and mentoring sessions, and a closer look at what I actually work on.</span>
+            <span className="f-meta"><span>bio</span>·<span>events</span>·<span>off-keyboard</span></span>
+            <span className="f-arrow">↗</span>
+          </Link>
+          <Link className="flow-card" href="/contact">
+            <span className="f-idx">04 / next</span>
+            <span className="f-title">Contact</span>
+            <span className="f-desc">Email, LinkedIn, GitHub and the full CV in PDF. If you&apos;re building something ambitious, reach out.</span>
+            <span className="f-meta"><span>email</span>·<span>linkedin</span>·<span>cv.pdf</span></span>
+            <span className="f-arrow">↗</span>
+          </Link>
+        </section>
+
+        <section className="selected" data-reveal>
+          <div className="head">
+            <span className="lbl">// selected projects</span>
+            <h2>Shipped.</h2>
+            <Link className="more mono link" href="/work">all work →</Link>
+          </div>
+
+          <div className="proj-grid">
+            <article className="proj">
+              <span className="idx">SP/01</span>
+              <h3 className="proj-name">zkSYS &amp; Rollux</h3>
+              <p className="proj-desc">Coordinated the zkSYS testnet launch and a multi-chain architecture combining UTXO, EVM and zk scalability.</p>
+              <div className="proj-meta"><span>2023–now</span><span className="tag">zk · L2 · architecture</span></div>
+            </article>
+            <article className="proj">
+              <span className="idx">SP/02</span>
+              <h3 className="proj-name">Lunos</h3>
+              <p className="proj-desc">Smart-contract architecture for decentralized risk management. $20M+ in underwriting capacity, with EigenLayer AVS integration.</p>
+              <div className="proj-meta"><span>2024–now</span><span className="tag">solidity · defi · avs</span></div>
+            </article>
+            <article className="proj">
+              <span className="idx">SP/03</span>
+              <h3 className="proj-name">Pegasys.fi</h3>
+              <p className="proj-desc">Uniswap v3 + Aave forks on Syscoin &amp; Rollux. Directed DeFi protocol engineering and Aave-fork extensions.</p>
+              <div className="proj-meta"><span>2023–now</span><span className="tag">amm · lending</span></div>
+            </article>
+            <article className="proj">
+              <span className="idx">SP/04</span>
+              <h3 className="proj-name">Pali Wallet</h3>
+              <p className="proj-desc">Non-custodial wallet (browser extension + mobile) for the Syscoin multi-chain ecosystem.</p>
+              <div className="proj-meta"><span>2023–now</span><span className="tag">wallet · infra</span></div>
+            </article>
+          </div>
+        </section>
+
+        <div className="cta-tail" data-reveal>
+          <p className="line">Want the <em>long version</em>?<br />The CV is one click away.</p>
+          <Link className="cta-link" href="/contact">contact &amp; cv →</Link>
         </div>
-      </section>
+      </main>
+      <Reveal />
     </div>
   );
 }
