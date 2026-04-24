@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Navbar from './components/Navbar';
 import Terminal from './components/Terminal';
 import Reveal from './components/Reveal';
+import Pinboard from './components/Pinboard';
 
 export default function HomePage() {
   return (
@@ -48,7 +49,7 @@ export default function HomePage() {
               <img src="/images/hero-portrait.jpeg" alt="David Potolski presenting Lunos at Devcon" />
             </div>
             <span className="badge">portrait / devcon 2025</span>
-            <span className="tag">david · on stage</span>
+            <span className="tag">david · Pitching to investors</span>
           </div>
         </section>
 
@@ -116,6 +117,7 @@ export default function HomePage() {
           <Link className="cta-link" href="/contact">contact &amp; cv →</Link>
         </div>
       </main>
+      <Pinboard />
       <Reveal />
     </div>
   );

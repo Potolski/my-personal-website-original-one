@@ -1,7 +1,27 @@
 import Navbar from '../components/Navbar';
 import Reveal from '../components/Reveal';
+import EventSlideshow from '../components/EventSlideshow';
 
 export const metadata = { title: 'About — David Potolski' };
+
+const dubaiPhotos = [
+  { src: '/images/dubai-presenting.jpeg', alt: 'Presenting the winning project at SuiHub Dubai', title: 'Demoing the protocol', meta: 'SuiHub · Dubai' },
+  { src: '/images/dubai-room.jpeg', alt: 'The SuiHub hackathon room in Dubai', title: 'On the hackathon floor', meta: 'SuiHub HQ · Dubai, UAE' },
+  { src: '/images/dubai-winner.jpeg', alt: 'Truth on Sui winner announcement', title: 'Winner announcement', meta: 'Swarm × SuiHub · on-site hackathon' },
+  { src: '/images/dubai-presenting-closeup.jpeg', alt: 'Close-up of David presenting Sui Attestation Service', title: 'Pitch close-up', meta: 'Sui Attestation Service · live demo' },
+];
+
+const devconPhotos = [
+  { src: '/images/devcon-1.jpeg', alt: 'David Potolski presenting Lunos at Devcon', title: 'Opening the pitch', meta: '“Securing the future of cross-chain value”' },
+  { src: '/images/devcon-2.jpeg', alt: 'Lunos business model slide at Devcon', title: 'Business model', meta: 'Protocol revenue & POL' },
+  { src: '/images/devcon-3.jpeg', alt: 'Lunos how it works slide at Devcon', title: 'How it works — end to end', meta: 'User stake → yield → payout' },
+];
+
+const monadPhotos = [
+  { src: '/images/mentoring-3.jpeg', alt: 'Mentoring session at Monad Blitz', title: 'On-site mentoring', meta: 'Architecture reviews & scoping' },
+  { src: '/images/mentoring-stage.jpeg', alt: 'Opening Monad Blitz on stage', title: 'Opening remarks', meta: 'Kicking off Blitz São Paulo' },
+  { src: '/images/mentoring-group.jpeg', alt: 'Monad Blitz São Paulo group photo', title: 'The full cohort', meta: 'Monad Blitz · São Paulo' },
+];
 
 export default function AboutPage() {
   return (
@@ -26,111 +46,6 @@ export default function AboutPage() {
             <img src="/profile-photo.jpeg" alt="David Potolski" />
           </figure>
         </section>
-
-        <div className="events-head" data-reveal>
-          <span className="kicker">// out in the world</span>
-          <h2>Talks &amp; field notes.</h2>
-        </div>
-
-        <div className="event-block" data-reveal>
-          <div className="event-head">
-            <span className="kicker">01 / Dubai · UAE · 2025</span>
-            <h3>&ldquo;Truth on Sui&rdquo; — 1st place, SuiHub on-site hackathon</h3>
-            <p>I took first place — <b>solo project</b> — across all on-site hackathon submissions with <b>Sui Attestation Service</b>, a decentralized attestation infrastructure on Sui. Designed the smart-contract architecture and demoed the protocol to the judging panel.</p>
-          </div>
-          <div className="events">
-            <article className="event large">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/dubai-winner.jpeg" alt="Truth on Sui winner announcement: 1st Place — Sui Attestation Service" /></div>
-              <div className="caption">
-                <h3>Winner announcement</h3>
-                <div className="meta">Swarm × SuiHub · on-site hackathon</div>
-              </div>
-            </article>
-            <article className="event medium">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/dubai-presenting.jpeg" alt="Presenting the winning project at SuiHub Dubai" /></div>
-              <div className="caption">
-                <h3>Demoing the protocol</h3>
-                <div className="meta">SuiHub · Dubai</div>
-              </div>
-            </article>
-            <article className="event half">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/dubai-room.jpeg" alt="The SuiHub hackathon room in Dubai" /></div>
-              <div className="caption">
-                <h3>On the hackathon floor</h3>
-                <div className="meta">SuiHub HQ · Dubai, UAE</div>
-              </div>
-            </article>
-            <article className="event half">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/dubai-presenting-closeup.jpeg" alt="Close-up of David presenting Sui Attestation Service at SuiHub Dubai" /></div>
-              <div className="caption">
-                <h3>Pitch close-up</h3>
-                <div className="meta">Sui Attestation Service · live demo</div>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div className="event-block" data-reveal>
-          <div className="event-head">
-            <span className="kicker">02 / Buenos Aires · Argentina · 2025</span>
-            <h3>Lunos at Devcon — client &amp; investor pitch</h3>
-            <p>Pitched <b>Lunos</b> — a decentralized risk-management protocol for Web3 — to strategic partners and investors at <b>Ethereum&apos;s biggest conference</b>. Walked through the architecture, the business model and the &ldquo;how it works&rdquo; flow for cross-chain coverage.</p>
-          </div>
-          <div className="events">
-            <article className="event half">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/devcon-1.jpeg" alt="David Potolski presenting Lunos at Devcon" /></div>
-              <div className="caption">
-                <h3>Opening the pitch</h3>
-                <div className="meta">&ldquo;Securing the future of cross-chain value&rdquo;</div>
-              </div>
-            </article>
-            <article className="event half">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/devcon-2.jpeg" alt="Lunos business model slide at Devcon" /></div>
-              <div className="caption">
-                <h3>Business model</h3>
-                <div className="meta">Protocol revenue &amp; POL</div>
-              </div>
-            </article>
-            <article className="event wide">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/devcon-3.jpeg" alt="Lunos how it works slide at Devcon" /></div>
-              <div className="caption">
-                <h3>How it works — end to end</h3>
-                <div className="meta">User stake → yield → payout</div>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <div className="event-block" data-reveal>
-          <div className="event-head">
-            <span className="kicker">03 / São Paulo &amp; Rio de Janeiro · Brazil · 2026</span>
-            <h3>Mentoring at Monad Blitz Brazil</h3>
-            <p>Mentored a cohort of Brazilian Web3 builders through the <b>Monad Blitz</b> hackathon across São Paulo and Rio de Janeiro — reviewing smart-contract architectures, helping teams scope ambitious projects down to shippable demos, and kicking the events off from stage.</p>
-          </div>
-          <div className="events">
-            <article className="event large">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/mentoring-group.jpeg" alt="Monad Blitz São Paulo group photo" /></div>
-              <div className="caption">
-                <h3>The full cohort</h3>
-                <div className="meta">Monad Blitz · São Paulo</div>
-              </div>
-            </article>
-            <article className="event medium">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/mentoring-stage.jpeg" alt="Opening Monad Blitz on stage" /></div>
-              <div className="caption">
-                <h3>Opening remarks</h3>
-                <div className="meta">Kicking off Blitz São Paulo</div>
-              </div>
-            </article>
-            <article className="event wide">
-              <div className="ph">{/* eslint-disable-next-line @next/next/no-img-element */}<img src="/images/mentoring-3.jpeg" alt="Mentoring session at Monad Blitz" /></div>
-              <div className="caption">
-                <h3>On-site mentoring</h3>
-                <div className="meta">Architecture reviews &amp; scoping</div>
-              </div>
-            </article>
-          </div>
-        </div>
 
         <section className="strip" data-reveal>
           <div className="cell"><h4>$20M<span className="accent">+</span></h4><p>Underwriting capacity covered</p></div>
@@ -162,6 +77,44 @@ export default function AboutPage() {
             </ul>
           </div>
         </section>
+
+        <div className="events-head" data-reveal>
+          <span className="kicker">// out in the world</span>
+          <h2>Talks &amp; field notes.</h2>
+        </div>
+
+        <div className="event-block" data-reveal>
+          <div className="event-head-title">
+            <span className="kicker">01 / Dubai · UAE · 2025</span>
+            <h3>&ldquo;Truth on Sui&rdquo; — 1st place, SuiHub on-site hackathon</h3>
+          </div>
+          <div className="event-head-body">
+            <p>I won first place — <b>solo project</b> — at the on-site hackathon with <b>Sui Attestation Service</b>, a decentralized attestation infrastructure on Sui. Designed the smart-contract architecture and demoed the protocol to the judging panel.</p>
+          </div>
+          <EventSlideshow photos={dubaiPhotos} />
+        </div>
+
+        <div className="event-block" data-reveal>
+          <div className="event-head-title">
+            <span className="kicker">02 / Buenos Aires · Argentina · 2025</span>
+            <h3>Lunos at Devcon — client &amp; investor pitch</h3>
+          </div>
+          <div className="event-head-body">
+            <p>Pitched <b>Lunos</b> — a decentralized risk-management protocol for Web3 — to strategic partners and investors at <b>Ethereum&apos;s biggest conference: DevCon</b>. Walked through the architecture, the business model and the &ldquo;how it works&rdquo; flow for cross-chain coverage.</p>
+          </div>
+          <EventSlideshow photos={devconPhotos} />
+        </div>
+
+        <div className="event-block" data-reveal>
+          <div className="event-head-title">
+            <span className="kicker">03 / São Paulo &amp; Rio de Janeiro · Brazil · 2026</span>
+            <h3>Mentoring at Monad Blitz Brazil</h3>
+          </div>
+          <div className="event-head-body">
+            <p>Mentored a cohort of Brazilian Web3 builders through the <b>Monad Blitz</b> hackathon across São Paulo and Rio de Janeiro — reviewing smart-contract architectures, helping teams scope ambitious projects down to shippable demos, and kicking the events off from stage.</p>
+          </div>
+          <EventSlideshow photos={monadPhotos} />
+        </div>
       </main>
       <Reveal />
     </div>
